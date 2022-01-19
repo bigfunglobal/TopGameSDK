@@ -59,14 +59,14 @@ public class JudgeSpAB {
                 }
                 Log.d("caseawr", "case2: " + secTyoe);
                 mCallbackB.gtoB();
-                aBoolean=true;
             } else {
                 mCallbackA.gtoA();
-                aBoolean=true;
             }
+            aBoolean=true;
         }
         return aBoolean;
     }
+
     public static void xqnEwo(String rvox_gaun) {
         String adjRef = sp.getString("adAttri", "");
         xqnEwo(getKokacoqi(), rvox_gaun, adjRef);
