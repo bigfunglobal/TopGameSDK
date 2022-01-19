@@ -1,4 +1,4 @@
-package com.talking.bigfunglobal.model;
+package com.topgame.sdk;
 
 
 import com.tendcloud.tenddata.TalkingDataGA;

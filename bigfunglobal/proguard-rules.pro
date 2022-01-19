@@ -52,17 +52,9 @@
 
 }
 
--keep class com.talking.bigfunglobal.**{ *; }
--keepclassmembers class com.talking.bigfunglobal.JudgeSpAB{
-public void init(*);
- public static synchronized JudgeSpAB getInstance();
- }
--keepclassmembers class com.talking.bigfunglobal.InstallReferrer{
-public void init(*);
-public static synchronized InstallReferrer getInstance();
-}
--keepclassmembers class com.talking.bigfunglobal.AdjustUtils{
-public void init(*);
+-keep class com.topgame.sdk.**{ *; }
+
+-keepclassmembers class com.topgame.sdk.TopGameUtils{
  public static synchronized AdjustUtils getInstance();
  }
 

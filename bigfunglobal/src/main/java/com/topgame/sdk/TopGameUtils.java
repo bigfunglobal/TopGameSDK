@@ -1,22 +1,19 @@
-package com.talking.bigfunglobal.utils;
+package com.topgame.sdk;
 
-import static com.talking.bigfunglobal.utils.AdjustUtils.JZKPbq;
-import static com.talking.bigfunglobal.utils.AdjustUtils.getKokacoqi;
-import static com.talking.bigfunglobal.utils.JudgeSpAB.xqnEwo;
-
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.util.Log;
 
+
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
-import com.talking.bigfunglobal.model.TdwdiVvOyKn;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -24,49 +21,88 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InstallReferrer {
+public class TopGameUtils {
+    private static TopGameUtils mAdjustUtils;
+    //    //第一次保存的数据
+    private static String kokacoqi = "";
 
-    private static SharedPreferences sp = null;
-    private static InstallReferrer mInstallReferrer;
-    private static InstallReferrerClient frqmbxmk;
-    private static long _ecklthmx;
     private static String rvox_gaun = "";
-    private static String reffer = "";
-    private static Context mContext;
+    private static TopGameListener mCallback;
+    static SharedPreferences sp;
+    static String _FINgame = "";
+    private static InstallReferrerClient frqmbxmk;
     public static Map<String, String> Prgvfmnp = new HashMap<String, String>();
+    private static long _ecklthmx = 10000;
 
-    public static synchronized InstallReferrer getInstance() {
-        if (mInstallReferrer == null) {
-            synchronized (InstallReferrer.class) {
-                if (mInstallReferrer == null) {
-                    mInstallReferrer = new InstallReferrer();
+    //初始化SMSManager
+    public static synchronized TopGameUtils getInstance() {
+        if (mAdjustUtils == null) {
+            synchronized (TopGameUtils.class) {
+                if (mAdjustUtils == null) {
+                    mAdjustUtils = new TopGameUtils();
                 }
             }
         }
-        return mInstallReferrer;
+        return mAdjustUtils;
     }
 
-    public void init(SharedPreferences sharedPreferences,long _ecklthmx,Context context, String reffer){
-        sp = sharedPreferences;
-        mContext=context;
-        this.reffer=reffer;
-        this._ecklthmx=_ecklthmx;
-        stareZAzvur();
+
+    public void naciulmlkn(Context mContext, TopGameListener mCallback) {
+        this.mCallback = mCallback;
+        //第二次进入时候判断数据获取判断
+        sp = mContext.getSharedPreferences(mContext.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
+        if (1 == sp.getInt("sendRes", 0)) {
+            String url = sp.getString("refferUrl", "");
+            if (1 == sp.getInt("referrer", 0)) {
+                int secTyoe = sp.getInt("secOpen", 0);
+                switch (secTyoe) {
+                    case 1:
+                        TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "ggWTOpen:");
+                        break;
+                    case 2:
+                        TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "ggBKOpen:");
+                        break;
+                    case 3:
+                        TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "gyOpen:");
+                        break;
+                }
+                Log.d("caseawr", "case2: " + secTyoe);
+                mCallback.onSwitchListener(true);
+            } else {
+                mCallback.onSwitchListener(false);
+            }
+            return;
+        }
+        //第一次进入保存记录
+        JSONObject isk = new JSONObject();
+        JSONObject data = new JSONObject();
+        try {
+            //reffer:白名单（,source,not set）,
+            data.put("reffer", "data,gclid,pcampaignid,adjust");
+            data.put("reffer_bk", "");
+            data.put("timeout", 15000f);
+            isk.put("data", data.toString());
+            isk.put("code", "0");
+            Log.d("fweftar", "onCreate: " + isk);
+            kokacoqi = isk.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        stareZAzvur(mContext);
     }
 
     //第一次进入获取installReferrer数据进行判断
-    public static void stareZAzvur() {
+    public static void stareZAzvur(Context mContext) {
         frqmbxmk = InstallReferrerClient.newBuilder(mContext).build();
         frqmbxmk.startConnection(new InstallReferrerStateListener() {
             @Override
             public void onInstallReferrerSetupFinished(int responseCode) {
                 if (responseCode == InstallReferrerClient.InstallReferrerResponse.OK) {
-                    String installReferrer="";
-                    if(reffer.isEmpty()) {
-                        installReferrer = xEwNdP();
-                    }else {
-                        installReferrer=reffer;
-                    }
+                    String installReferrer = xEwNdP();
+//                    installReferrer = "utm_source=(not%20set)&utm_medium=(not%20set)";
+//                    installReferrer = "gclid=CjwKCAiAh_GNBhAHEiwAjOh3ZPdyYev5W2u0qaaLUIZdtHyEqQE_FffRJKkYM-E7xJvFVo-aGsCS7BoC_0cQAvD_BwE";
+//                    installReferrer = "pcampaignid=inline|youtubeads|9416164";
+//                    installReferrer = "utm_content=%7B%22source%22%3A%7B%22data%22%3A%2200d6e5fe5d662f5e9306d51c19761418d466185fe4d661a1d98a43ad974e8d7e2f97e1e71946a3d1b0b08237b1681f9a275ee18c3b062696d51a021304d4ff49c1f35c1c2527a30dbbcdb0be001f3419a1078ab23d801a2cce0b7c673746c185f07be35529be4fa";
                     try {
                         installReferrer = URLDecoder.decode(installReferrer, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
@@ -85,7 +121,7 @@ public class InstallReferrer {
                         }
                     }
                     //解析第一次进入保存数据
-                    JSONObject oInfo = JZKPbq(getKokacoqi());
+                    JSONObject oInfo = JZKPbq(kokacoqi);
                     Log.d("fwet", oInfo.toString());
                     String code = oInfo.optString("code");
                     _ecklthmx = oInfo.optLong("timeout", 15000);//default 15s
@@ -97,10 +133,10 @@ public class InstallReferrer {
 
                     //解析保存的的白名单
                     //0跳过 1是黑名单enablefalse 2非黑名单 enabletrue
-                    int tytp = oFZeIZ(getKokacoqi());
+                    int tytp = oFZeIZ(kokacoqi);
                     boolean isGreff = false;
                     if (tytp == 0) {
-                        boolean retype = FVBQDS(getKokacoqi());
+                        boolean retype = FVBQDS(kokacoqi);
                         isGreff = retype;
                     } else if (tytp == 1) {
                         isGreff = false;
@@ -111,7 +147,7 @@ public class InstallReferrer {
                     if (isGreff) {
 //                        Log.e("TAGerf", "mkit1: ");
                         //如果googleReferrer能打开
-                        xqnEwo(rvox_gaun);
+                        xqnEwo();
                         if (code.equals("0")) {
                             editor.putInt("completeRef", 1);
                             editor.commit();
@@ -129,23 +165,24 @@ public class InstallReferrer {
 //                                Log.e("TAGerf", "mkit3: ");
                                 if (sp.getInt("completeADJ", 0) != 1) {
 //                                    Log.e("TAGerf", "mkit31: ");
-                                    xqnEwo(rvox_gaun);
+                                    xqnEwo();
                                 }
                             }
                         }, _ecklthmx);
 
                         if (!sp.getString("adAttri", "").isEmpty()) {
 //                            Log.e("TAGerf", "mkit4: ");
-                            xqnEwo(rvox_gaun);
+                            xqnEwo();
                         } else {
                             if (Prgvfmnp.get("utm_source") != null && Prgvfmnp.get("utm_source").equals("google-play")) {
 //                                Log.e("TAGerf", "mkit5: ");
-                                xqnEwo(rvox_gaun);
+                                xqnEwo();
                             }
                         }
                     }
                     return;
                 }
+                mCallback.onSwitchListener(false);
 
             }
 
@@ -154,6 +191,35 @@ public class InstallReferrer {
 
             }
         });
+    }
+
+    public static JSONObject JZKPbq(String result) {
+        //自然量
+        JSONObject oInfo = new JSONObject();
+        JSONObject jdata = null;
+        try {
+            jdata = new JSONObject(result);
+            oInfo.put("code", jdata.optString("code"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String data = jdata.optString("data");
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject(data);
+            oInfo.put("wbAdr", obj.optString("wbAdr"));
+            oInfo.put("ver", obj.optString("ver"));
+            oInfo.put("reffer", obj.optString("reffer"));
+            String timeou = obj.optString("timeout");
+            long timeoutlong = Long.parseLong(timeou);
+            oInfo.put("timeout", timeoutlong);
+
+            oInfo.put("reffer_bk", obj.optString("reffer_bk"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return oInfo;
     }
 
     //解析保存的名单
@@ -210,6 +276,79 @@ public class InstallReferrer {
         return isGreff;
     }
 
+    public static boolean rxxZGE(String adjRef) {
+        boolean isAd = false;
+        if (!adjRef.isEmpty()) {
+            JSONObject obj2 = null;
+            try {
+                obj2 = new JSONObject(adjRef);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String network = obj2.optString("network");
+            String campaign = obj2.optString("campaign");
+            if (network.equals("Unattributed")) {
+                isAd = true;
+            } else if (!campaign.isEmpty()) {
+                isAd = true;
+            } else {
+            }
+        }
+        return isAd;
+    }
+
+
+    public static void xqnEwo() {
+        String adjRef = sp.getString("adAttri", "");
+        xqnEwo(kokacoqi, rvox_gaun, adjRef);
+    }
+
+    private static void xqnEwo(String sevdata, String installReferrer, String adjRef) {
+//        boolean isGreff = FVBQDS(sevdata);
+        //0跳过 1是黑名单enablefalse 2非黑名单 enabletrue
+        int tytp = oFZeIZ(kokacoqi);
+        boolean isGreff = false;
+        int carse = 0;
+        if (tytp == 0) {
+            boolean retype = FVBQDS(kokacoqi);
+            isGreff = retype;
+            if (retype) carse = 1;
+        } else if (tytp == 1) {
+            isGreff = false;
+        } else if (tytp == 2) {
+            isGreff = true;
+            carse = 2;
+        }
+
+        boolean isAd = rxxZGE(adjRef);
+//        Log.d("wreawt", "case: "+isAd);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("sendRes", 1);
+        editor.commit();
+        if (isGreff || isAd) {
+            if (isGreff) {
+                if (carse == 1) {
+                    TdwdiVvOyKn.WKeeNM("A_referrer", "open", "ggWTOpen:");
+                } else if (carse == 2) {
+                    TdwdiVvOyKn.WKeeNM("A_referrer", "open", "ggBKOpen:");
+                }
+            } else if (isAd) {
+                carse = 3;
+                TdwdiVvOyKn.WKeeNM("A_referrer", "open", "gyOpen");
+            }
+            Log.d("caseawr", "case: " + carse);
+
+            editor.putInt("secOpen", carse);
+            editor.putInt("referrer", 1);
+            editor.putString("refferUrl", installReferrer);
+            editor.commit();
+
+            mCallback.onSwitchListener(true);
+        } else {
+            mCallback.onSwitchListener(false);
+        }
+    }
+
     private static String xEwNdP() {
         if (frqmbxmk != null) {
             ReferrerDetails referrerDetails = null;
@@ -222,6 +361,7 @@ public class InstallReferrer {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
+
         }
         return "";
     }
@@ -232,4 +372,5 @@ public class InstallReferrer {
             frqmbxmk = null;
         }
     }
+
 }

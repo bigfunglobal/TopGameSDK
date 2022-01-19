@@ -1,6 +1,7 @@
-package com.talking.bigfunglobal;
+package com.topgame.sdk;
 
-import static com.talking.bigfunglobal.utils.JudgeSpAB.xqnEwo;
+
+import static com.topgame.sdk.TopGameUtils.xqnEwo;
 
 import android.app.Activity;
 import android.app.Application;
@@ -13,51 +14,30 @@ import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustAttribution;
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.OnAttributionChangedListener;
-import com.talking.bigfunglobal.model.TdwdiVvOyKn;
-import com.talking.bigfunglobal.utils.AdjustUtils;
-import com.talking.bigfunglobal.utils.InstallReferrer;
-import com.talking.bigfunglobal.utils.JudgeSpAB;
 import com.tendcloud.tenddata.TDGAProfile;
 import com.tendcloud.tenddata.TalkingDataGA;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
 
-public class GlobalApplication extends Application {
+public class BigFunSDK {
+    private static Context context;
     private static long rgqwtime = 0;
-    private static GlobalApplication buvvbivh;
-    private static String appToken="";//"749xmt9mstmo"
-    private static String TalkingDatId="";
-    private static String TalkingDatName="";
-    private static String SPName="";
-    private static int SPModel;
-    public static GlobalApplication getInstance() {
-        return buvvbivh;
-    }
     private static JSONObject fbgv = new JSONObject();
+
     //获取时间
     public static long xaPhax() {
         Date date = new Date(System.currentTimeMillis());
         return date.getTime();
     }
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        buvvbivh=this;
-        AdjustUtils.getInstance();
-        JudgeSpAB.getInstance();
-        InstallReferrer.getInstance();
-        init();
-//初始化TD
-    }
-    private void init(){
-        Log.e("onCreateGlobal","onCreateGlobal"+TalkingDatId);
-        TalkingDataGA.init(getInstance(), TalkingDatId, TalkingDatName);
-        TDGAProfile.setProfile(TalkingDataGA .getDeviceId(getInstance()));
-        AdjustConfig acaaigxc = new AdjustConfig(getInstance(),appToken , AdjustConfig.ENVIRONMENT_PRODUCTION);
+
+    public static void init(Application mContext, String AdjustAppToken, String TalkingDatId, String TalkingDatChannelCode) {
+        context=mContext.getApplicationContext();
+        TalkingDataGA.init(mContext, TalkingDatId, TalkingDatChannelCode);
+        TDGAProfile.setProfile(TalkingDataGA.getDeviceId(mContext));
+        AdjustConfig acaaigxc = new AdjustConfig(mContext, AdjustAppToken, AdjustConfig.ENVIRONMENT_PRODUCTION);
         //获取时间
         rgqwtime = xaPhax();
         //获取Adjust的配置数据
@@ -66,24 +46,24 @@ public class GlobalApplication extends Application {
             public void onAttributionChanged(AdjustAttribution atibunt) {
                 try {
 //                    fbgv.put("trackerName",atibunt.trackerName);
-                    fbgv.put("network",atibunt.network);
-                    fbgv.put("campaign",atibunt.campaign);
+                    fbgv.put("network", atibunt.network);
+                    fbgv.put("campaign", atibunt.campaign);
                     long afterTime = xaPhax();
                     long sub = afterTime - rgqwtime;
-                    fbgv.put("timesub",sub);
-                    SharedPreferences sp = AdjustUtils.getSharedPreferences(getInstance(),SPName, SPModel);
+                    fbgv.put("timesub", sub);
+                    SharedPreferences sp = mContext.getSharedPreferences(mContext.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("adAttri",fbgv.toString());
+                    editor.putString("adAttri", fbgv.toString());
                     editor.commit();
-                    TdwdiVvOyKn.WKeeNM("A_Ev_Adgy","gyInfo",fbgv.toString());
-                    TdwdiVvOyKn.WKeeNM("A_Ev_Adgy","attrInfo",atibunt.toString());
-                    Log.d("staApplication", "atibunt: "+fbgv.toString());
-                    if(sp.getInt("completeRef",0) == 2){
+                    TdwdiVvOyKn.WKeeNM("A_Ev_Adgy", "gyInfo", fbgv.toString());
+                    TdwdiVvOyKn.WKeeNM("A_Ev_Adgy", "attrInfo", atibunt.toString());
+                    Log.d("staApplication", "atibunt: " + fbgv.toString());
+                    if (sp.getInt("completeRef", 0) == 2) {
                         //已经获取gogglereffer了
                         Log.e("TAGerf", "mkit6: ");
-                        editor.putInt("completeADJ",1);
+                        editor.putInt("completeADJ", 1);
                         editor.commit();
-                        xqnEwo("");
+                        xqnEwo();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -92,7 +72,7 @@ public class GlobalApplication extends Application {
         });
 
         Adjust.onCreate(acaaigxc);
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+        mContext.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
 
@@ -131,17 +111,11 @@ public class GlobalApplication extends Application {
         });
     }
 
-    public GlobalApplication(String appToken,String TalkingDatId,String TalkingDatName,String SPName,int SPModel){
-        this.appToken=appToken;
-        this.TalkingDatId=TalkingDatId;
-        this.TalkingDatName=TalkingDatName;
-        this.SPName=SPName;
-        this.SPModel=SPModel;
+    public static void getSwitch(TopGameListener mCallback){
+        TopGameUtils.getInstance().naciulmlkn(context,mCallback);
     }
-
-    public GlobalApplication(){
-
+    public static void PlCFEe(){
+        TopGameUtils.getInstance().PlCFEe();
     }
-
 
 }

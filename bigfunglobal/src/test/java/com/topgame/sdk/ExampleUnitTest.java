@@ -1,4 +1,4 @@
-package com.talking.bigfunglobal;
+package com.topgame.sdk;
 
 import org.junit.Test;
 
