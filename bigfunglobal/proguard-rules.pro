@@ -54,9 +54,9 @@ public static void init(*);
 public static void getSwitch(*);
 public static void PlCFEe(*);
 }
--keepclassmembers class com.topgame.sdk.TopGameListener{
- void onSwitchListener(boolean val);
- }
+#-keepclassmembers interface com.topgame.sdk.TopGameListener{
+#  void onTopGameListener(boolean val0);
+# }
 
 ##指定代码的压缩级别
 -optimizationpasses 5
