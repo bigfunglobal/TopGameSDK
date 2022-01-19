@@ -85,7 +85,7 @@ gotA():跳转A面
 
 gotB():跳转B面
 
-aBoolean：判断是否是一次打开应用
+aBoolean：判断是否是记录了
 
 调用：
 
@@ -154,7 +154,7 @@ tnnpvanb = this;
 
 sp=AdjustUtils.getInstance().getSharedPreferences(getInstance(),SPName,SPModel);
 
-//aBoolean：判断是否是一次打开应用
+//aBoolean：判断是否是判断是否是记录了
 
 aBoolean = JudgeSpAB.getInstance().init(sp);
 
