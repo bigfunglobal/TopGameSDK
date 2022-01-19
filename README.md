@@ -24,7 +24,7 @@ dependencies {
 
 ....
 
-implementation 'com.github.bigfunglobal:TopGameSDK:1.0'
+implementation 'com.github.bigfunglobal:TopGameSDK:v1.0.1'
 
 }
 
