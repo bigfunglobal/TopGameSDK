@@ -1,5 +1,5 @@
 package com.topgame.sdk;
 
 public interface TopGameListener {
-    void onSwitchListener(boolean val);
+    void onTopGameListener(boolean val);
 }

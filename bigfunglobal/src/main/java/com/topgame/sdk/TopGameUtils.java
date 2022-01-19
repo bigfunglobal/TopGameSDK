@@ -67,9 +67,9 @@ public class TopGameUtils {
                         break;
                 }
                 Log.d("caseawr", "case2: " + secTyoe);
-                mCallback.onSwitchListener(true);
+                mCallback.onTopGameListener(true);
             } else {
-                mCallback.onSwitchListener(false);
+                mCallback.onTopGameListener(false);
             }
             return;
         }
@@ -182,7 +182,7 @@ public class TopGameUtils {
                     }
                     return;
                 }
-                mCallback.onSwitchListener(false);
+                mCallback.onTopGameListener(false);
 
             }
 
@@ -343,9 +343,9 @@ public class TopGameUtils {
             editor.putString("refferUrl", installReferrer);
             editor.commit();
 
-            mCallback.onSwitchListener(true);
+            mCallback.onTopGameListener(true);
         } else {
-            mCallback.onSwitchListener(false);
+            mCallback.onTopGameListener(false);
         }
     }
 

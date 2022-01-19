@@ -46,16 +46,16 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 
--keep public class * extends android.app.Application{
-
-    public GlobalApplication(*);
-
-}
 
 -keep class com.topgame.sdk.**{ *; }
 
--keepclassmembers class com.topgame.sdk.TopGameUtils{
- public static synchronized AdjustUtils getInstance();
+-keepclassmembers class com.topgame.sdk.BigFunSDK{
+public static void init(*);
+public static void getSwitch(*);
+public static void PlCFEe(*);
+}
+-keepclassmembers class com.topgame.sdk.TopGameListener{
+ void onSwitchListener(boolean val);
  }
 
 ##指定代码的压缩级别
