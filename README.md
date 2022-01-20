@@ -24,7 +24,7 @@ dependencies {
 
 ....
 
-implementation 'com.github.bigfunglobal:TopGameSDK:1.0'
+implementation 'com.github.bigfunglobal:TopGameSDK:v1.0.1'
 
 }
 
@@ -38,7 +38,7 @@ Activity implements SwitchListener{}
 
 回调onSwitchListener(boolean)方法
 
-根据boolean值
+根据boolean值判断逻辑
 
 在Activity中onCreate()调用
 
