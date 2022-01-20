@@ -32,23 +32,23 @@ implementation 'com.github.bigfunglobal:TopGameSDK:v1.0.1'
 
 在Application中初始化的：
 
-BigFunSDK.init(this,adjustAppToken,talkingDataAppId,talkingDataChannelCode,);//初始化的接口重写
+TopGameSDK.init(this,adjustAppToken,talkingDataAppId,talkingDataChannelCode,);//初始化的接口重写
 
-Activity implements SwitchListener{}
+Activity implements TopGameListener{}
 
-回调onSwitchListener(boolean)方法
+回调onTopGameListener(boolean)方法
 
 根据boolean值判断逻辑
 
 在Activity中onCreate()调用
 
 
-BigFunSDK.getSwitch(this)
+TopGameSDK.getSwitch(this)
 
 
 在Activity中onDestroy()中调用
 
-BigFunSDK.PlCFEe();
+TopGameSDK.PlCFEe();
 
 资源释放
 
