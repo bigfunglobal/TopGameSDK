@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-public class BigFunSDK {
+public class TopGameSDK {
     private static Context context;
     private static long rgqwtime = 0;
     private static JSONObject fbgv = new JSONObject();

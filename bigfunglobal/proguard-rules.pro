@@ -49,7 +49,7 @@
 
 -keep class com.topgame.sdk.**{ *; }
 
--keepclassmembers class com.topgame.sdk.BigFunSDK{
+-keepclassmembers class com.topgame.sdk.TopGameSDK{
 public static void init(*);
 public static void getSwitch(*);
 public static void PlCFEe(*);
