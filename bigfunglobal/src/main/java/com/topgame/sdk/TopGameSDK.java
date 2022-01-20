@@ -111,10 +111,10 @@ public class TopGameSDK {
         });
     }
 
-    public static void getSwitch(TopGameListener mCallback){
-        TopGameUtils.getInstance().naciulmlkn(context,mCallback);
+    public static void setListener(TopGameListener listener){
+        TopGameUtils.getInstance().naciulmlkn(context,listener);
     }
-    public static void PlCFEe(){
+    public static void onDestroy(){
         TopGameUtils.getInstance().PlCFEe();
     }
 

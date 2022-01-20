@@ -47,8 +47,8 @@ public class TopGameUtils {
     }
 
 
-    public void naciulmlkn(Context mContext, TopGameListener mCallback) {
-        this.mCallback = mCallback;
+    public void naciulmlkn(Context mContext,TopGameListener listener) {
+        mCallback=listener;
         //第二次进入时候判断数据获取判断
         sp = mContext.getSharedPreferences(mContext.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
         if (1 == sp.getInt("sendRes", 0)) {
