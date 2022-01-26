@@ -52,4 +52,6 @@ TopGameSDK.PlCFEe();
 
 资源释放
 
+添加getSwitch()方法获取boolean值判断逻辑
+
 
