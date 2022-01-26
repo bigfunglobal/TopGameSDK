@@ -25,6 +25,7 @@ import java.util.Date;
 public class TopGameSDK {
     private static Context context;
     private static long rgqwtime = 0;
+    private static boolean aBoolean=false;
     private static JSONObject fbgv = new JSONObject();
 
     //获取时间
@@ -109,6 +110,18 @@ public class TopGameSDK {
 
             }
         });
+    }
+
+    public static boolean getSwitch(){
+
+        setListener(new TopGameListener() {
+            @Override
+            public boolean onTopGameListener(boolean val0) {
+                aBoolean=val0;
+                return aBoolean;
+            }
+        });
+        return aBoolean;
     }
 
     public static void setListener(TopGameListener listener){
