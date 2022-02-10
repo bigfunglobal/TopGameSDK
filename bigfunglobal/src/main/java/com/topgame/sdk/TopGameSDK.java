@@ -112,18 +112,6 @@ public class TopGameSDK {
         });
     }
 
-    public static boolean getSwitch(){
-
-        setListener(new TopGameListener() {
-            @Override
-            public boolean onTopGameListener(boolean val0) {
-                aBoolean=val0;
-                return aBoolean;
-            }
-        });
-        return aBoolean;
-    }
-
     public static void setListener(TopGameListener listener){
         TopGameUtils.getInstance().naciulmlkn(context,listener);
     }
