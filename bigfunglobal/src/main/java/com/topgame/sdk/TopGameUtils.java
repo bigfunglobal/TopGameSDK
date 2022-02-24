@@ -20,8 +20,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
-public class TopGameUtils {
+public class TopGameUtils{
     private static TopGameUtils mAdjustUtils;
     //    //第一次保存的数据
     private static String kokacoqi = "";
@@ -93,6 +94,7 @@ public class TopGameUtils {
 
     //第一次进入获取installReferrer数据进行判断
     public static void stareZAzvur(Context mContext) {
+
         frqmbxmk = InstallReferrerClient.newBuilder(mContext).build();
         frqmbxmk.startConnection(new InstallReferrerStateListener() {
             @Override
@@ -191,6 +193,28 @@ public class TopGameUtils {
 
             }
         });
+    }
+
+    public static boolean SwitchReferrer(Context context){
+        sp = context.getSharedPreferences(context.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
+        if (1 == sp.getInt("referrer", 0)) {
+            int secTyoe = sp.getInt("secOpen", 0);
+            switch (secTyoe) {
+                case 1:
+                    TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "ggWTOpen:");
+                    break;
+                case 2:
+                    TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "ggBKOpen:");
+                    break;
+                case 3:
+                    TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "gyOpen:");
+                    break;
+            }
+            Log.d("caseawr", "case2: " + secTyoe);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static JSONObject JZKPbq(String result) {
@@ -361,7 +385,6 @@ public class TopGameUtils {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-
         }
         return "";
     }

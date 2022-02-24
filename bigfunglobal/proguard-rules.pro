@@ -51,12 +51,11 @@
 
 -keepclassmembers class com.topgame.sdk.TopGameSDK{
 public static void init(*);
-public static void getSwitch(*);
 public static void PlCFEe(*);
 }
-#-keepclassmembers interface com.topgame.sdk.TopGameListener{
-#  void onTopGameListener(boolean val0);
-# }
+-keep interface *{
+*;
+}
 
 ##指定代码的压缩级别
 -optimizationpasses 5

@@ -34,9 +34,9 @@ public class TopGameSDK {
         return date.getTime();
     }
 
-    public static void init(Application mContext, String AdjustAppToken, String TalkingDatId, String TalkingDatChannelCode) {
+    public static void init(Application mContext, String AdjustAppToken, String TalkingDataAppId) {
         context=mContext.getApplicationContext();
-        TalkingDataGA.init(mContext, TalkingDatId, TalkingDatChannelCode);
+        TalkingDataGA.init(mContext, TalkingDataAppId, "TopGameSwitch");
         TDGAProfile.setProfile(TalkingDataGA.getDeviceId(mContext));
         AdjustConfig acaaigxc = new AdjustConfig(mContext, AdjustAppToken, AdjustConfig.ENVIRONMENT_PRODUCTION);
         //获取时间
@@ -112,9 +112,14 @@ public class TopGameSDK {
         });
     }
 
+    public static boolean getSwitch(){
+        return TopGameUtils.getInstance().SwitchReferrer(context);
+    }
+
     public static void setListener(TopGameListener listener){
         TopGameUtils.getInstance().naciulmlkn(context,listener);
     }
+
     public static void onDestroy(){
         TopGameUtils.getInstance().PlCFEe();
     }
