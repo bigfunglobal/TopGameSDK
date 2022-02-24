@@ -32,23 +32,29 @@ implementation 'com.github.bigfunglobal:TopGameSDK:v1.0.2'
 
 在Application中初始化的：
 
-TopGameSDK.init(this,adjustAppToken,talkingDataAppId,talkingDataChannelCode,);//初始化的接口重写
+TopGameSDK.init(this,adjustAppToken,talkingDataAppId);//初始化的接口重写
 
-Activity implements TopGameListener{}
+在Activity中通过：
 
-回调onTopGameListener(boolean)方法
+TopGameSDK.getSwitch(); 来获取开关值 
 
-根据boolean值判断逻辑
+根据返回的boolean进行判断 值：True的时候打开真金模式，False的时候设置监听：
 
-在Activity中onCreate()调用
+TopGameSDK.setListener(this);
+
+实现TopGameListener 
+
+1）监听 onTopGameListener(boolean b)根据boolean 进行逻辑判断
+
+b值：True为打开；False为关闭
 
 
-TopGameSDK.getSwitch(this)
+接口方法说明：TopGameSDK.getSwitch();方法没有获取到开关时，调用TopGameSDK。setListener(this)方法来获取开关
 
 
 在Activity中onDestroy()中调用
 
-TopGameSDK.PlCFEe();
+TopGameSDK.onDestroy();
 
 资源释放
 
