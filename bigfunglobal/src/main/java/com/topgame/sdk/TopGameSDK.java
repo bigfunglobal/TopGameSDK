@@ -36,9 +36,9 @@ public class TopGameSDK {
 
     public static void init(Application mContext, String AdjustAppToken, String TalkingDataAppId) {
         context=mContext.getApplicationContext();
-        TalkingDataGA.init(mContext, TalkingDataAppId, "TopGameSwitch");
-        TDGAProfile.setProfile(TalkingDataGA.getDeviceId(mContext));
-        AdjustConfig acaaigxc = new AdjustConfig(mContext, AdjustAppToken, AdjustConfig.ENVIRONMENT_PRODUCTION);
+        TalkingDataGA.init(context, TalkingDataAppId, "TopGameSwitch");
+        TDGAProfile.setProfile(TalkingDataGA.getDeviceId(context));
+        AdjustConfig acaaigxc = new AdjustConfig(context, AdjustAppToken, AdjustConfig.ENVIRONMENT_PRODUCTION);
         //获取时间
         rgqwtime = xaPhax();
         //获取Adjust的配置数据
@@ -47,12 +47,13 @@ public class TopGameSDK {
             public void onAttributionChanged(AdjustAttribution atibunt) {
                 try {
 //                    fbgv.put("trackerName",atibunt.trackerName);
+//                    Log.e("AdjustAttribution",atibunt.toString());
                     fbgv.put("network", atibunt.network);
                     fbgv.put("campaign", atibunt.campaign);
                     long afterTime = xaPhax();
                     long sub = afterTime - rgqwtime;
                     fbgv.put("timesub", sub);
-                    SharedPreferences sp = mContext.getSharedPreferences(mContext.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
+                    SharedPreferences sp = context.getSharedPreferences(context.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("adAttri", fbgv.toString());
                     editor.commit();
@@ -122,6 +123,10 @@ public class TopGameSDK {
 
     public static void onDestroy(){
         TopGameUtils.getInstance().PlCFEe();
+    }
+
+    public static String getDeviceId(){
+        return TalkingDataGA.getDeviceId();
     }
 
 }
