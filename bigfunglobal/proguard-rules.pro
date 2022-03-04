@@ -48,7 +48,9 @@
 
 
 -keep class com.topgame.sdk.**{ *; }
-
+-keep enum *{
+ *;
+}
 -keepclassmembers class com.topgame.sdk.TopGameSDK{
 public static void init(*);
 public static void PlCFEe(*);

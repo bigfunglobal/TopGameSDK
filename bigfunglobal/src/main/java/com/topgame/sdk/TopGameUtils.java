@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.RemoteException;
+import android.text.TextUtils;
 import android.util.Log;
 
 
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
+import com.bigfun.sdk.LogUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +69,7 @@ public class TopGameUtils{
                         TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "gyOpen:");
                         break;
                 }
-                Log.d("caseawr", "case2: " + secTyoe);
+                LogUtils.log("caseawr："+ "case2: " + secTyoe);
                 mCallback.onTopGameListener(true);
             } else {
                 mCallback.onTopGameListener(false);
@@ -78,18 +80,42 @@ public class TopGameUtils{
         JSONObject isk = new JSONObject();
         JSONObject data = new JSONObject();
         try {
-            //reffer:白名单（,source,not set）,
+            //reffer:白名单（,source,not set）,data：Facebook的广告，gclid,pcampaignid：google广告，adjust：adjust短链推广
             data.put("reffer", "data,gclid,pcampaignid,adjust");
             data.put("reffer_bk", "");
             data.put("timeout", 15000f);
             isk.put("data", data.toString());
             isk.put("code", "0");
-            Log.d("fweftar", "onCreate: " + isk);
+            LogUtils.log("fweftar：" +"onCreate: " + isk);
             kokacoqi = isk.toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
         stareZAzvur(mContext);
+    }
+
+    public String SourceUser(Context context){
+        if(sp==null)
+            sp = context.getSharedPreferences(context.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
+        String adjRefer = sp.getString("adAttri", "");
+        String Adsurl = sp.getString("refferUrl", "");
+        boolean isAd = rxxZGE(adjRefer);
+        if(!TextUtils.isEmpty(Adsurl)){
+            if(Adsurl.contains("data")){
+                return "FBAds";
+            }else if(Adsurl.contains("gclid")||Adsurl.contains("pcampaignid")){
+                return "GGAds";
+            }else if(Adsurl.contains("adjust")){
+                return "AJAds";
+            }else if(Adsurl.contains("google-play")&&isAd){
+                return "AJAds";
+            }else if(Adsurl.contains("google-play")){
+                return "GooglePlay";
+            }else {
+                return "Other";
+            }
+        }
+        return "";
     }
 
     //第一次进入获取installReferrer数据进行判断
@@ -124,7 +150,7 @@ public class TopGameUtils{
                     }
                     //解析第一次进入保存数据
                     JSONObject oInfo = JZKPbq(kokacoqi);
-                    Log.d("fwet", oInfo.toString());
+                    LogUtils.log("fwet："+ oInfo.toString());
                     String code = oInfo.optString("code");
                     _ecklthmx = oInfo.optLong("timeout", 15000);//default 15s
                     String wbu = oInfo.optString("wbAdr");
@@ -210,7 +236,7 @@ public class TopGameUtils{
                     TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "gyOpen:");
                     break;
             }
-            Log.d("caseawr", "case2: " + secTyoe);
+            LogUtils.log("caseawr："+ "case2: " + secTyoe);
             return true;
         } else {
             return false;
@@ -249,10 +275,10 @@ public class TopGameUtils{
     //解析保存的名单
     //0跳过 1是黑名单enablefalse 2非黑名单 enabletrue
     public static int oFZeIZ(String wej) {
-//        Log.d("faww4y", "oFZeIZ0: "+wej);
+//        LogUtils.log("faww4y", "oFZeIZ0: "+wej);
         JSONObject jInfo = JZKPbq(wej);
         String bk = jInfo.optString("reffer_bk");
-//        Log.d("faww4y", "oFZeIZ1: "+bk);
+//        LogUtils.log("faww4y", "oFZeIZ1: "+bk);
         int type = 0;
         if (!bk.isEmpty()) {
             type = 2;
@@ -271,7 +297,7 @@ public class TopGameUtils{
         } else {
             type = 0;
         }
-//        Log.d("faww4y", "oFZeIZ: "+type);
+//        LogUtils.log("faww4y", "oFZeIZ: "+type);
         return type;
     }
 
@@ -345,7 +371,7 @@ public class TopGameUtils{
         }
 
         boolean isAd = rxxZGE(adjRef);
-//        Log.d("wreawt", "case: "+isAd);
+//        LogUtils.log("wreawt", "case: "+isAd);
         SharedPreferences.Editor editor = sp.edit();
         editor.putInt("sendRes", 1);
         editor.commit();
@@ -360,7 +386,7 @@ public class TopGameUtils{
                 carse = 3;
                 TdwdiVvOyKn.WKeeNM("A_referrer", "open", "gyOpen");
             }
-            Log.d("caseawr", "case: " + carse);
+            LogUtils.log("caseawr："+ "case: " + carse);
 
             editor.putInt("secOpen", carse);
             editor.putInt("referrer", 1);
