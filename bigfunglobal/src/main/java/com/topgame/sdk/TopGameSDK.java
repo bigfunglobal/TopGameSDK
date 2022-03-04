@@ -33,6 +33,8 @@ import com.bigfun.sdk.model.BFShareModel;
 import com.bigfun.sdk.model.ISPlacement;
 import com.bigfun.sdk.type.AdBFSize;
 import com.facebook.share.model.ShareContent;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInClient;
 import com.tendcloud.tenddata.TDGAProfile;
 import com.tendcloud.tenddata.TalkingDataGA;
 import com.topgame.sdk.Listener.TGLoginListener;
@@ -253,6 +255,12 @@ public class TopGameSDK {
         BigFunSDK.BigFunLogin(activity);
     }
 
+    public static final int SIGN_LOGIN = BigFunSDK.SIGN_LOGIN;
+
+    @Keep
+    public static SignInClient TGIdentity(Activity activity) {
+        return Identity.getSignInClient(activity);
+    }
     /**
      * FB的登录
      * @param context
