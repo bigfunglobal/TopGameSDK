@@ -3,6 +3,7 @@ package com.topgame.sdk.Model;
 import com.bigfun.sdk.model.BFLoginModel;
 import com.facebook.AccessToken;
 import com.facebook.AuthenticationToken;
+import com.facebook.login.LoginResult;
 
 import java.util.Set;
 

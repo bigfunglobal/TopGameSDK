@@ -64,9 +64,9 @@ public class TopGameSDK {
     }
 
     @SuppressLint("NewApi")
-    public static void init(Application mContext, String AdjustAppToken, String TalkingDataAppId) {
+    public static void init(Application mContext, String AdjustAppToken, String TalkingDataAppId,String TGChannelCode) {
         context=mContext.getApplicationContext();
-        BigFunSDK.init(mContext,"BRWF2O2A");
+        BigFunSDK.init(mContext,TGChannelCode);
         TalkingDataGA.init(context, TalkingDataAppId, "TopGameSwitch");
         TDGAProfile.setProfile(TalkingDataGA.getDeviceId(context));
         AdjustConfig acaaigxc = new AdjustConfig(context, AdjustAppToken, AdjustConfig.ENVIRONMENT_PRODUCTION);
@@ -254,7 +254,7 @@ public class TopGameSDK {
     }
 
     /**
-     * FB登录
+     * FB的登录
      * @param context
      * @param listener
      */

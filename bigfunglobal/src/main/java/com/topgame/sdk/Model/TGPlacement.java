@@ -1,6 +1,5 @@
 package com.topgame.sdk.Model;
 
-import com.bigfun.sdk.model.BFLoginModel;
 import com.bigfun.sdk.model.ISPlacement;
 import com.ironsource.mediationsdk.model.l;
 
