@@ -28,15 +28,12 @@ import com.bigfun.sdk.IpUtils;
 import com.bigfun.sdk.LogUtils;
 import com.bigfun.sdk.NetWork.BFRewardedVideoListener;
 import com.bigfun.sdk.login.BFAdjustListener;
-import com.bigfun.sdk.login.LoginListener;
-import com.bigfun.sdk.login.ShareListener;
-import com.bigfun.sdk.model.BFLoginModel;
-import com.bigfun.sdk.model.BFShareModel;
+
 import com.bigfun.sdk.model.ISPlacement;
 import com.bigfun.sdk.type.AdBFSize;
 import com.bigfun.sdk.utils.LocationUtils;
 import com.bigfun.sdk.utils.SystemUtil;
-import com.facebook.share.model.ShareContent;
+
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
 
@@ -275,56 +272,56 @@ public class TopGameSDK {
     public static SignInClient TGIdentity(Activity activity) {
         return Identity.getSignInClient(activity);
     }
-    /**
-     * FB的登录
-     * @param context
-     * @param listener
-     */
-    @Keep
-    public static void TGLogin(Context context, TGLoginListener listener){
-        BigFunSDK.BigFunLogin(context, new LoginListener() {
-            @Override
-            public void onCancel() {
-                listener.onCancel();
-            }
+//    /**
+//     * FB的登录
+//     * @param context
+//     * @param listener
+//     */
+//    @Keep
+//    public static void TGLogin(Context context, TGLoginListener listener){
+//        BigFunSDK.BigFunLogin(context, new LoginListener() {
+//            @Override
+//            public void onCancel() {
+//                listener.onCancel();
+//            }
+//
+//            @Override
+//            public void onError(String error) {
+//                listener.onError(error);
+//            }
+//
+//            @Override
+//            public void onComplete(BFLoginModel loginResult) {
+//                listener.onComplete(new TGLoginModel(loginResult));
+//            }
+//        });
+//    }
 
-            @Override
-            public void onError(String error) {
-                listener.onError(error);
-            }
-
-            @Override
-            public void onComplete(BFLoginModel loginResult) {
-                listener.onComplete(new TGLoginModel(loginResult));
-            }
-        });
-    }
-
-    /**
-     * FB的分享
-     * @param context
-     * @param linkContent
-     * @param listener
-     */
-    @Keep
-    public static void TGShare(Context context, ShareContent linkContent, TGShareListener listener){
-        BigFunSDK.BigFunShare(context, linkContent, new ShareListener() {
-            @Override
-            public void onCancel() {
-                listener.onCancel();
-            }
-
-            @Override
-            public void onError(String error) {
-                listener.onError(error);
-            }
-
-            @Override
-            public void onComplete(BFShareModel result) {
-                listener.onComplete(new TGShareModel(result));
-            }
-        });
-    }
+//    /**
+//     * FB的分享
+//     * @param context
+//     * @param linkContent
+//     * @param listener
+//     */
+//    @Keep
+//    public static void TGShare(Context context, ShareContent linkContent, TGShareListener listener){
+//        BigFunSDK.BigFunShare(context, linkContent, new ShareListener() {
+//            @Override
+//            public void onCancel() {
+//                listener.onCancel();
+//            }
+//
+//            @Override
+//            public void onError(String error) {
+//                listener.onError(error);
+//            }
+//
+//            @Override
+//            public void onComplete(BFShareModel result) {
+//                listener.onComplete(new TGShareModel(result));
+//            }
+//        });
+//    }
 
     /**
      * 文本分享
@@ -346,13 +343,13 @@ public class TopGameSDK {
         BigFunSDK.BigFunShare(context,shareFileUri);
     }
 
-    /**
-     * 退出登录
-     */
-    @Keep
-    public static void Logout(){
-        BigFunSDK.BigFunLogout();
-    }
+//    /**
+//     * 退出登录
+//     */
+//    @Keep
+//    public static void Logout(){
+//        BigFunSDK.BigFunLogout();
+//    }
 
     /**
      * FB返回 回调
@@ -360,8 +357,8 @@ public class TopGameSDK {
      * @param resultCode
      * @param data
      */
-    @Keep
-    public static void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        BigFunSDK.onActivityResult(requestCode, resultCode, data);
-    }
+//    @Keep
+//    public static void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        BigFunSDK.onActivityResult(requestCode, resultCode, data);
+//    }
 }
