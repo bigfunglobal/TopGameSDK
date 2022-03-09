@@ -39,12 +39,12 @@ import com.google.android.gms.auth.api.identity.SignInClient;
 
 import com.tendcloud.tenddata.TalkingDataSDK;
 import com.topgame.sdk.Listener.TGAdjustListener;
-import com.topgame.sdk.Listener.TGLoginListener;
+
 import com.topgame.sdk.Listener.TGRewardedVideoListener;
-import com.topgame.sdk.Listener.TGShareListener;
-import com.topgame.sdk.Model.TGLoginModel;
+
+
 import com.topgame.sdk.Model.TGPlacement;
-import com.topgame.sdk.Model.TGShareModel;
+
 import com.topgame.sdk.Utils.SizeUtils;
 import com.topgame.sdk.type.AdTGSize;
 
