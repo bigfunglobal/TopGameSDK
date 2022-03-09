@@ -1,51 +1,52 @@
 package com.topgame.sdk.Model;
 
-import com.bigfun.sdk.model.ISPlacement;
-import com.ironsource.mediationsdk.model.l;
+import com.bigfun.sdk.model.FBISPlacement;
+import com.ironsource.mediationsdk.model.Placement;
+import com.ironsource.mediationsdk.model.PlacementAvailabilitySettings;
+
 
 public class TGPlacement {
-    private int a;
-    private String b;
-    private boolean c;
-    private String d;
-    private int e;
-    private l f;
+    private int mPlacementId;
+    private String mPlacementName;
+    private boolean mIsDefault;
+    private String mRewardName;
+    private int mRewardAmount;
+    private PlacementAvailabilitySettings mPlacementAvailabilitySettings;
 
-
-
-    public TGPlacement(ISPlacement var1) {
-        this.a = var1.getPlacementId();
-        this.b = var1.getPlacementName();
-        this.c = var1.isDefault();
-        this.f = var1.getPlacementAvailabilitySettings();
+    public TGPlacement(FBISPlacement var1) {
+        this.mPlacementId = var1.getPlacementId();
+        this.mPlacementName = var1.getPlacementName();
+        this.mRewardName = var1.getRewardName();
+        this.mIsDefault = var1.isDefault();
+        this.mRewardAmount = var1.getRewardAmount();
+        this.mPlacementAvailabilitySettings = var1.getPlacementAvailabilitySettings();
     }
-
     public int getPlacementId() {
-        return this.a;
+        return this.mPlacementId;
     }
 
     public String getPlacementName() {
-        return this.b;
+        return this.mPlacementName;
     }
 
     public boolean isDefault() {
-        return this.c;
+        return this.mIsDefault;
     }
 
     public String getRewardName() {
-        return this.d;
+        return this.mRewardName;
     }
 
     public int getRewardAmount() {
-        return this.e;
+        return this.mRewardAmount;
     }
 
     public String toString() {
-        return "placement name: " + this.b + ", reward name: " + this.d + " , amount: " + this.e;
+        return "placement name: " + this.mPlacementName + ", reward name: " + this.mRewardName + " , amount: " + this.mRewardAmount;
     }
 
-    public l getPlacementAvailabilitySettings() {
-        return this.f;
+    public PlacementAvailabilitySettings getPlacementAvailabilitySettings() {
+        return this.mPlacementAvailabilitySettings;
     }
 }
 

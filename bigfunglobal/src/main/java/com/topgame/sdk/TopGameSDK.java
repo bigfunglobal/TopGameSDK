@@ -29,7 +29,7 @@ import com.bigfun.sdk.LogUtils;
 import com.bigfun.sdk.NetWork.BFRewardedVideoListener;
 import com.bigfun.sdk.login.BFAdjustListener;
 
-import com.bigfun.sdk.model.ISPlacement;
+import com.bigfun.sdk.model.FBISPlacement;
 import com.bigfun.sdk.type.AdBFSize;
 import com.bigfun.sdk.utils.LocationUtils;
 import com.bigfun.sdk.utils.SystemUtil;
@@ -242,7 +242,7 @@ public class TopGameSDK {
             }
 
             @Override
-            public void onRewardedVideoAdRewarded(ISPlacement placement) {
+            public void onRewardedVideoAdRewarded(FBISPlacement placement) {
                 listener.onRewardedVideoAdRewarded(new TGPlacement(placement));
             }
         });
