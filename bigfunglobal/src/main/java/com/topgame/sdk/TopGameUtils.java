@@ -32,6 +32,7 @@ public class TopGameUtils{
     private static String rvox_gaun = "";
     private static TopGameListener mCallback;
     static SharedPreferences sp;
+    private static Context context;
     static String _FINgame = "";
     private static InstallReferrerClient frqmbxmk;
     public static Map<String, String> Prgvfmnp = new HashMap<String, String>();
@@ -52,6 +53,7 @@ public class TopGameUtils{
 
     public void naciulmlkn(Context mContext,TopGameListener listener) {
         mCallback=listener;
+        context=mContext;
         //第二次进入时候判断数据获取判断
         sp = mContext.getSharedPreferences(mContext.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
         if (1 == sp.getInt("sendRes", 0)) {
@@ -60,13 +62,13 @@ public class TopGameUtils{
                 int secTyoe = sp.getInt("secOpen", 0);
                 switch (secTyoe) {
                     case 1:
-                        TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "ggWTOpen:");
+                        TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open2", "ggWTOpen:");
                         break;
                     case 2:
-                        TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "ggBKOpen:");
+                        TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open2", "ggBKOpen:");
                         break;
                     case 3:
-                        TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "gyOpen:");
+                        TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open2", "gyOpen:");
                         break;
                 }
                 LogUtils.log("caseawr："+ "case2: " + secTyoe);
@@ -137,7 +139,7 @@ public class TopGameUtils{
                         e.printStackTrace();
                     }
                     rvox_gaun = installReferrer;
-                    TdwdiVvOyKn.WKeeNM("A_referrer", "url", installReferrer);
+                    TdwdiVvOyKn.WKeeNM(context,"A_referrer", "url", installReferrer);
                     Log.e("TAGer", "onInstallReferrerSetupFinished: " + installReferrer);
                     //数组installReferrer转化
                     String[] wer = installReferrer.split("&");
@@ -227,13 +229,13 @@ public class TopGameUtils{
             int secTyoe = sp.getInt("secOpen", 0);
             switch (secTyoe) {
                 case 1:
-                    TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "ggWTOpen:");
+                    TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open2", "ggWTOpen:");
                     break;
                 case 2:
-                    TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "ggBKOpen:");
+                    TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open2", "ggBKOpen:");
                     break;
                 case 3:
-                    TdwdiVvOyKn.WKeeNM("A_referrer", "open2", "gyOpen:");
+                    TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open2", "gyOpen:");
                     break;
             }
             LogUtils.log("caseawr："+ "case2: " + secTyoe);
@@ -378,13 +380,13 @@ public class TopGameUtils{
         if (isGreff || isAd) {
             if (isGreff) {
                 if (carse == 1) {
-                    TdwdiVvOyKn.WKeeNM("A_referrer", "open", "ggWTOpen:");
+                    TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open", "ggWTOpen:");
                 } else if (carse == 2) {
-                    TdwdiVvOyKn.WKeeNM("A_referrer", "open", "ggBKOpen:");
+                    TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open", "ggBKOpen:");
                 }
             } else if (isAd) {
                 carse = 3;
-                TdwdiVvOyKn.WKeeNM("A_referrer", "open", "gyOpen");
+                TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open", "gyOpen");
             }
             LogUtils.log("caseawr："+ "case: " + carse);
 

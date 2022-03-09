@@ -24,19 +24,24 @@ import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.OnAttributionChangedListener;
 
 import com.bigfun.sdk.BigFunSDK;
+import com.bigfun.sdk.IpUtils;
 import com.bigfun.sdk.LogUtils;
 import com.bigfun.sdk.NetWork.BFRewardedVideoListener;
+import com.bigfun.sdk.login.BFAdjustListener;
 import com.bigfun.sdk.login.LoginListener;
 import com.bigfun.sdk.login.ShareListener;
 import com.bigfun.sdk.model.BFLoginModel;
 import com.bigfun.sdk.model.BFShareModel;
 import com.bigfun.sdk.model.ISPlacement;
 import com.bigfun.sdk.type.AdBFSize;
+import com.bigfun.sdk.utils.LocationUtils;
+import com.bigfun.sdk.utils.SystemUtil;
 import com.facebook.share.model.ShareContent;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
-import com.tendcloud.tenddata.TDGAProfile;
-import com.tendcloud.tenddata.TalkingDataGA;
+
+import com.tendcloud.tenddata.TalkingDataSDK;
+import com.topgame.sdk.Listener.TGAdjustListener;
 import com.topgame.sdk.Listener.TGLoginListener;
 import com.topgame.sdk.Listener.TGRewardedVideoListener;
 import com.topgame.sdk.Listener.TGShareListener;
@@ -66,23 +71,20 @@ public class TopGameSDK {
     }
 
     @SuppressLint("NewApi")
-    public static void init(Application mContext, String AdjustAppToken, String TalkingDataAppId,String TGChannelCode) {
+    public static void init(Application mContext,String TGChannelCode) {
         context=mContext.getApplicationContext();
-        BigFunSDK.init(mContext,TGChannelCode);
-        TalkingDataGA.init(context, TalkingDataAppId, "TopGameSwitch");
-        TDGAProfile.setProfile(TalkingDataGA.getDeviceId(context));
-        AdjustConfig acaaigxc = new AdjustConfig(context, AdjustAppToken, AdjustConfig.ENVIRONMENT_PRODUCTION);
+//        TalkingDataGA.init(context, "TopGameSwitch");
+//        TDGAProfile.setProfile(TalkingDataGA.getDeviceId(context));
         //获取时间
         rgqwtime = xaPhax();
-        //获取Adjust的配置数据
-        acaaigxc.setOnAttributionChangedListener(new OnAttributionChangedListener() {
+        BigFunSDK.init(mContext, TGChannelCode, new BFAdjustListener() {
             @Override
-            public void onAttributionChanged(AdjustAttribution atibunt) {
+            public void onAttributionChanged(AdjustAttribution attribution) {
                 try {
 //                    fbgv.put("trackerName",atibunt.trackerName);
 //                    Log.e("AdjustAttribution",atibunt.toString());
-                    fbgv.put("network", atibunt.network);
-                    fbgv.put("campaign", atibunt.campaign);
+                    fbgv.put("network", attribution.network);
+                    fbgv.put("campaign", attribution.campaign);
                     long afterTime = xaPhax();
                     long sub = afterTime - rgqwtime;
                     fbgv.put("timesub", sub);
@@ -90,8 +92,8 @@ public class TopGameSDK {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("adAttri", fbgv.toString());
                     editor.commit();
-                    TdwdiVvOyKn.WKeeNM("A_Ev_Adgy", "gyInfo", fbgv.toString());
-                    TdwdiVvOyKn.WKeeNM("A_Ev_Adgy", "attrInfo", atibunt.toString());
+                    TdwdiVvOyKn.WKeeNM(context,"A_Ev_Adgy", "gyInfo", fbgv.toString());
+                    TdwdiVvOyKn.WKeeNM(context,"A_Ev_Adgy", "attrInfo", attribution.toString());
                     LogUtils.log("staApplication："+"atibunt: " + fbgv.toString());
                     if (sp.getInt("completeRef", 0) == 2) {
                         //已经获取gogglereffer了
@@ -106,42 +108,41 @@ public class TopGameSDK {
             }
         });
 
-        Adjust.onCreate(acaaigxc);
-        mContext.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+    }
+
+    @SuppressLint("NewApi")
+    public static void init(Application mContext, String TGChannelCode, TGAdjustListener listener) {
+        context=mContext.getApplicationContext();
+        rgqwtime = xaPhax();
+        BigFunSDK.init(mContext, TGChannelCode, new BFAdjustListener() {
             @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityResumed(final Activity activity) {
-                Adjust.onResume();
-
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-                Adjust.onPause();
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-
+            public void onAttributionChanged(AdjustAttribution attribution) {
+                listener.onAttributionChanged(attribution);
+                try {
+//                    fbgv.put("trackerName",atibunt.trackerName);
+//                    Log.e("AdjustAttribution",atibunt.toString());
+                    fbgv.put("network", attribution.network);
+                    fbgv.put("campaign", attribution.campaign);
+                    long afterTime = xaPhax();
+                    long sub = afterTime - rgqwtime;
+                    fbgv.put("timesub", sub);
+                    SharedPreferences sp = context.getSharedPreferences(context.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("adAttri", fbgv.toString());
+                    editor.commit();
+                    TdwdiVvOyKn.WKeeNM(context,"A_Ev_Adgy", "gyInfo", fbgv.toString());
+                    TdwdiVvOyKn.WKeeNM(context,"A_Ev_Adgy", "attrInfo", attribution.toString());
+                    LogUtils.log("staApplication："+"atibunt: " + fbgv.toString());
+                    if (sp.getInt("completeRef", 0) == 2) {
+                        //已经获取gogglereffer了
+                        Log.e("TAGerf", "mkit6: ");
+                        editor.putInt("completeADJ", 1);
+                        editor.commit();
+                        xqnEwo();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -150,6 +151,7 @@ public class TopGameSDK {
      * 获取开关，True获取到了开关,false是没有获取到开关
      * @return
      */
+
     @Keep
     public static boolean getSwitch(){
         return TopGameUtils.getInstance().SwitchReferrer(context);
@@ -180,15 +182,20 @@ public class TopGameSDK {
     public static void getSourceUser(){
         TopGameUtils.getInstance().SourceUser(context);
     }
+
     /**
      * 获取设备ID
      * @return
      */
     @Keep
     public static String getDeviceId(){
-        return TalkingDataGA.getDeviceId();
+        return BigFunSDK.getDeviceId();
     }
 
+    @Keep
+    public static String getOAID(){
+        return BigFunSDK.getOAID();
+    }
     /**
      * 数据事件埋点
      * @param context
@@ -200,6 +207,13 @@ public class TopGameSDK {
         BigFunSDK.onEvent(context,eventId,map);
     }
 
+    /**
+     * 可疑设备
+     */
+    @Keep
+    public static String SuspiciousEquipment(){
+        return SystemUtil.getModel()+","+SystemUtil.getBrand()+","+SystemUtil.getVersion()+","+ IpUtils.getOutNetIP(context, 0)+","+ LocationUtils.getInstance(context).initLocation();
+    }
     /**
      * 展示横屏广告
      * @param frameLayout
