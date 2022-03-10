@@ -52,8 +52,8 @@
  *;
 }
 -keepclassmembers class com.topgame.sdk.TopGameSDK{
-public static void init(*);
-public static void PlCFEe(*);
+#public static void init(*);
+#public static void PlCFEe(*);
 }
 -keep interface *{
 *;
@@ -78,7 +78,7 @@ public static void PlCFEe(*);
 -verbose
 #
 ##忽略警告
-##-ignorewarning
+-ignorewarnings
 #
 ##保护注解
 -keepattributes *Annotation*

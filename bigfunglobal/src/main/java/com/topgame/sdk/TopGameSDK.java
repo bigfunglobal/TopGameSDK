@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
@@ -23,10 +24,18 @@ import com.adjust.sdk.AdjustAttribution;
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.OnAttributionChangedListener;
 
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.SkuDetails;
 import com.bigfun.sdk.BigFunSDK;
 import com.bigfun.sdk.IpUtils;
 import com.bigfun.sdk.LogUtils;
 import com.bigfun.sdk.NetWork.BFRewardedVideoListener;
+import com.bigfun.sdk.google.GoogleCommodityListener;
+import com.bigfun.sdk.google.GoogleConsumePurchaseListener;
+import com.bigfun.sdk.google.GoogleQueryPayListener;
+import com.bigfun.sdk.google.GoogleQueryPurchaseListener;
+import com.bigfun.sdk.google.MyBillingImpl;
 import com.bigfun.sdk.login.BFAdjustListener;
 
 import com.bigfun.sdk.model.FBISPlacement;
@@ -40,6 +49,10 @@ import com.google.android.gms.auth.api.identity.SignInClient;
 import com.tendcloud.tenddata.TalkingDataSDK;
 import com.topgame.sdk.Listener.TGAdjustListener;
 
+import com.topgame.sdk.Listener.TGGoogleCommodityListener;
+import com.topgame.sdk.Listener.TGGoogleConsumePurchaseListener;
+import com.topgame.sdk.Listener.TGGoogleQueryPayListener;
+import com.topgame.sdk.Listener.TGGoogleQueryPurchaseListener;
 import com.topgame.sdk.Listener.TGRewardedVideoListener;
 
 
@@ -211,6 +224,66 @@ public class TopGameSDK {
     public static String SuspiciousEquipment(){
         return SystemUtil.getModel()+","+SystemUtil.getBrand()+","+SystemUtil.getVersion()+","+ IpUtils.getOutNetIP(context, 0)+","+ LocationUtils.getInstance(context).initLocation();
     }
+
+    /**
+     *内购商品的展示
+     * @param googleCommodityListener
+     */
+    @Keep
+    public static void googleQueryPay(TGGoogleCommodityListener googleCommodityListener){
+        BigFunSDK.googleQueryPay(new GoogleCommodityListener() {
+            @Override
+            public void onSkuDetailsResponse(@NonNull BillingResult billingResult, @Nullable List<SkuDetails> skuDetailsList) {
+                googleCommodityListener.onSkuDetailsResponse(billingResult,skuDetailsList);
+            }
+        });
+    }
+
+    /**
+     * 已购买的未消费的商品
+     * @param queryPurchaseListener
+     */
+    @Keep
+    public static void googleQueryPurchase(TGGoogleQueryPurchaseListener queryPurchaseListener){
+        BigFunSDK.googleQueryPurchase(new GoogleQueryPurchaseListener() {
+            @Override
+            public void onQueryPurchasesResponse(@NonNull BillingResult billingResult, @NonNull List<Purchase> list) {
+                queryPurchaseListener.onQueryPurchasesResponse(billingResult,list);
+            }
+        });
+    }
+
+    /**
+     * 内购商品的购买，回调确认购买
+     * @param activity
+     * @param skuDetails
+     * @param googleQueryPayListener
+     */
+    @Keep
+    public static void initiatePurchaseFlow(Activity activity, final SkuDetails skuDetails, TGGoogleQueryPayListener googleQueryPayListener){
+        BigFunSDK.initiatePurchaseFlow(activity, skuDetails, new GoogleQueryPayListener() {
+            @Override
+            public void onPurchaseResponse(@NonNull BillingResult billingResult) {
+                googleQueryPayListener.onPurchaseResponse(billingResult);
+            }
+        });
+    }
+
+    /**
+     * 消费购买的商品
+     * @param purchase
+     * @param purchaseListener
+     */
+    @Keep
+    public static void consumePurchase(Purchase purchase, TGGoogleConsumePurchaseListener purchaseListener){
+        BigFunSDK.consumePurchase(purchase, new GoogleConsumePurchaseListener() {
+            @Override
+            public void onConsumePurchase(BillingResult billingResult, String purchaseToken) {
+                purchaseListener.onConsumePurchase(billingResult,purchaseToken);
+            }
+        });
+    }
+
     /**
      * 展示横屏广告
      * @param frameLayout
