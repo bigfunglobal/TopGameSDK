@@ -1,7 +1,6 @@
 package com.topgame.sdk;
 
 
-import static com.topgame.sdk.TopGameSDK.onEvent;
 
 import android.content.Context;
 

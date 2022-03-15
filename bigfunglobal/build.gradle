@@ -57,7 +57,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.7'
 
 //    implementation 'com.ironsource.sdk:mediationsdk:7.1.0'
-    implementation files('libs\\SaaS_GameAnalytics_Android_SDK_V4.0.68.jar')
 
 
 }
