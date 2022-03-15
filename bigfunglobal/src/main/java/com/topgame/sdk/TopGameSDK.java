@@ -10,54 +10,57 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
+import android.os.Build;
 import android.util.Log;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
+import androidx.annotation.RequiresApi;
 
-import com.adjust.sdk.Adjust;
+
 import com.adjust.sdk.AdjustAttribution;
-import com.adjust.sdk.AdjustConfig;
-import com.adjust.sdk.OnAttributionChangedListener;
-
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.SkuDetails;
+
 import com.bigfun.sdk.BigFunSDK;
-import com.bigfun.sdk.IpUtils;
+import com.bigfun.sdk.ExceptionHandler;
 import com.bigfun.sdk.LogUtils;
 import com.bigfun.sdk.NetWork.BFRewardedVideoListener;
-import com.bigfun.sdk.google.GoogleCommodityListener;
-import com.bigfun.sdk.google.GoogleConsumePurchaseListener;
-import com.bigfun.sdk.google.GoogleQueryPayListener;
-import com.bigfun.sdk.google.GoogleQueryPurchaseListener;
-import com.bigfun.sdk.google.MyBillingImpl;
-import com.bigfun.sdk.login.BFAdjustListener;
 
-import com.bigfun.sdk.model.FBISPlacement;
-import com.bigfun.sdk.type.AdBFSize;
+import com.bigfun.sdk.listener.BFAdjustListener;
+import com.bigfun.sdk.listener.BFSuccessListener;
+import com.bigfun.sdk.listener.GoogleCommodityListener;
+import com.bigfun.sdk.listener.GoogleConsumePurchaseListener;
+import com.bigfun.sdk.listener.GoogleQueryPayListener;
+import com.bigfun.sdk.listener.GoogleQueryPurchaseListener;
+import com.bigfun.sdk.listener.LoginListener;
+import com.bigfun.sdk.listener.ShareListener;
+import com.bigfun.sdk.model.BFLoginModel;
+import com.bigfun.sdk.model.BFShareModel;
+import com.bigfun.sdk.model.ISPlacement;
 import com.bigfun.sdk.utils.LocationUtils;
 import com.bigfun.sdk.utils.SystemUtil;
-
+import com.facebook.share.model.ShareContent;
 import com.google.android.gms.auth.api.identity.Identity;
 import com.google.android.gms.auth.api.identity.SignInClient;
 
-import com.tendcloud.tenddata.TalkingDataSDK;
 import com.topgame.sdk.Listener.TGAdjustListener;
 
 import com.topgame.sdk.Listener.TGGoogleCommodityListener;
 import com.topgame.sdk.Listener.TGGoogleConsumePurchaseListener;
 import com.topgame.sdk.Listener.TGGoogleQueryPayListener;
 import com.topgame.sdk.Listener.TGGoogleQueryPurchaseListener;
+import com.topgame.sdk.Listener.TGLoginListener;
 import com.topgame.sdk.Listener.TGRewardedVideoListener;
 
 
+import com.topgame.sdk.Listener.TGShareListener;
+import com.topgame.sdk.Model.TGLoginModel;
 import com.topgame.sdk.Model.TGPlacement;
-
+import com.topgame.sdk.Model.TGShareModel;
 import com.topgame.sdk.Utils.SizeUtils;
 import com.topgame.sdk.type.AdTGSize;
 
@@ -71,7 +74,6 @@ import java.util.Map;
 public class TopGameSDK {
     private static Context context;
     private static long rgqwtime = 0;
-    private static boolean aBoolean=false;
     private static JSONObject fbgv = new JSONObject();
 
     //获取时间
@@ -81,53 +83,36 @@ public class TopGameSDK {
     }
 
     @SuppressLint("NewApi")
-    public static void init(Application mContext,String TGChannelCode) {
+    @Keep
+    public static void init(Application mContext, String TGChannelCode) {
         context=mContext.getApplicationContext();
-//        TalkingDataGA.init(context, "TopGameSwitch");
-//        TDGAProfile.setProfile(TalkingDataGA.getDeviceId(context));
         //获取时间
         rgqwtime = xaPhax();
-        BigFunSDK.init(mContext, TGChannelCode, new BFAdjustListener() {
-            @Override
-            public void onAttributionChanged(AdjustAttribution attribution) {
-                try {
-//                    fbgv.put("trackerName",atibunt.trackerName);
-//                    Log.e("AdjustAttribution",atibunt.toString());
-                    fbgv.put("network", attribution.network);
-                    fbgv.put("campaign", attribution.campaign);
-                    long afterTime = xaPhax();
-                    long sub = afterTime - rgqwtime;
-                    fbgv.put("timesub", sub);
-                    SharedPreferences sp = context.getSharedPreferences(context.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("adAttri", fbgv.toString());
-                    editor.commit();
-                    TdwdiVvOyKn.WKeeNM(context,"A_Ev_Adgy", "gyInfo", fbgv.toString());
-                    TdwdiVvOyKn.WKeeNM(context,"A_Ev_Adgy", "attrInfo", attribution.toString());
-                    LogUtils.log("staApplication："+"atibunt: " + fbgv.toString());
-                    if (sp.getInt("completeRef", 0) == 2) {
-                        //已经获取gogglereffer了
-                        Log.e("TAGerf", "mkit6: ");
-                        editor.putInt("completeADJ", 1);
-                        editor.commit();
-                        xqnEwo();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+        tpinit(mContext,TGChannelCode,null);
     }
 
     @SuppressLint("NewApi")
+    @Keep
     public static void init(Application mContext, String TGChannelCode, TGAdjustListener listener) {
         context=mContext.getApplicationContext();
         rgqwtime = xaPhax();
+        tpinit(mContext,TGChannelCode,listener);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static void tpinit(Application mContext, String TGChannelCode, TGAdjustListener listener){
+        ExceptionHandler.install(new ExceptionHandler.CustomExceptionHandler() {
+            @Override
+            public void handlerException(Thread thread, Throwable throwable) {
+                Log.e("SDK", throwable.getMessage());
+            }
+        });
+
         BigFunSDK.init(mContext, TGChannelCode, new BFAdjustListener() {
             @Override
             public void onAttributionChanged(AdjustAttribution attribution) {
-                listener.onAttributionChanged(attribution);
+                if (listener != null)
+                    listener.onAttributionChanged(attribution);
                 try {
 //                    fbgv.put("trackerName",atibunt.trackerName);
 //                    Log.e("AdjustAttribution",atibunt.toString());
@@ -140,9 +125,9 @@ public class TopGameSDK {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("adAttri", fbgv.toString());
                     editor.commit();
-                    TdwdiVvOyKn.WKeeNM(context,"A_Ev_Adgy", "gyInfo", fbgv.toString());
-                    TdwdiVvOyKn.WKeeNM(context,"A_Ev_Adgy", "attrInfo", attribution.toString());
-                    LogUtils.log("staApplication："+"atibunt: " + fbgv.toString());
+                    TdwdiVvOyKn.WKeeNM(context, "A_Ev_Adgy", "gyInfo", fbgv.toString());
+                    TdwdiVvOyKn.WKeeNM(context, "A_Ev_Adgy", "attrInfo", attribution.toString());
+                    LogUtils.log("staApplication：" + "atibunt: " + fbgv.toString());
                     if (sp.getInt("completeRef", 0) == 2) {
                         //已经获取gogglereffer了
                         Log.e("TAGerf", "mkit6: ");
@@ -154,8 +139,16 @@ public class TopGameSDK {
                     e.printStackTrace();
                 }
             }
+        }, new BFSuccessListener() {
+            @Override
+            public void onSuccess() {
+                TDUtils.TDinit(context,BigFunSDK.getTDID(),"TopGameSDk");
+            }
         });
+
     }
+
+
 
     /**
      * 获取开关，True获取到了开关,false是没有获取到开关
@@ -189,14 +182,14 @@ public class TopGameSDK {
      *用户来源
      */
     @Keep
-    public static void getSourceUser(){
-        TopGameUtils.getInstance().SourceUser(context);
+    public static String getSourceUser(){
+        return TopGameUtils.getInstance().SourceUser(context);
     }
 
     /**
-     * 获取设备ID
-     * @return
-     */
+//     * 获取设备ID
+//     * @return
+//     */
     @Keep
     public static String getDeviceId(){
         return BigFunSDK.getDeviceId();
@@ -206,6 +199,7 @@ public class TopGameSDK {
     public static String getOAID(){
         return BigFunSDK.getOAID();
     }
+
     /**
      * 数据事件埋点
      * @param context
@@ -217,12 +211,31 @@ public class TopGameSDK {
         BigFunSDK.onEvent(context,eventId,map);
     }
 
+    @Keep
+    public static void onEvent(String eventId, Map map) {
+        BigFunSDK.onEvent(eventId,map);
+    }
+
+    @Keep
+    public static void onEvent(String eventId) {
+        BigFunSDK.onEvent(eventId);
+    }
     /**
-     * 可疑设备
+     * 是否真机
+     * @return
+     */
+    @Keep
+    public static boolean fictitious(){
+        return BigFunSDK.fictitious();
+    }
+
+    /**
+     * 手机设备信息
+     * @return
      */
     @Keep
     public static String SuspiciousEquipment(){
-        return SystemUtil.getModel()+","+SystemUtil.getBrand()+","+SystemUtil.getVersion()+","+ IpUtils.getOutNetIP(context, 0)+","+ LocationUtils.getInstance(context).initLocation();
+        return BigFunSDK.SuspiciousEquipment();
     }
 
     /**
@@ -230,7 +243,7 @@ public class TopGameSDK {
      * @param googleCommodityListener
      */
     @Keep
-    public static void googleQueryPay(TGGoogleCommodityListener googleCommodityListener){
+    public static void GoogleQueryPay(TGGoogleCommodityListener googleCommodityListener){
         BigFunSDK.googleQueryPay(new GoogleCommodityListener() {
             @Override
             public void onSkuDetailsResponse(@NonNull BillingResult billingResult, @Nullable List<SkuDetails> skuDetailsList) {
@@ -244,7 +257,7 @@ public class TopGameSDK {
      * @param queryPurchaseListener
      */
     @Keep
-    public static void googleQueryPurchase(TGGoogleQueryPurchaseListener queryPurchaseListener){
+    public static void GoogleQueryPurchase(TGGoogleQueryPurchaseListener queryPurchaseListener){
         BigFunSDK.googleQueryPurchase(new GoogleQueryPurchaseListener() {
             @Override
             public void onQueryPurchasesResponse(@NonNull BillingResult billingResult, @NonNull List<Purchase> list) {
@@ -260,7 +273,7 @@ public class TopGameSDK {
      * @param googleQueryPayListener
      */
     @Keep
-    public static void initiatePurchaseFlow(Activity activity, final SkuDetails skuDetails, TGGoogleQueryPayListener googleQueryPayListener){
+    public static void InitiatePurchaseFlow(Activity activity, final SkuDetails skuDetails, TGGoogleQueryPayListener googleQueryPayListener){
         BigFunSDK.initiatePurchaseFlow(activity, skuDetails, new GoogleQueryPayListener() {
             @Override
             public void onPurchaseResponse(@NonNull BillingResult billingResult) {
@@ -275,7 +288,7 @@ public class TopGameSDK {
      * @param purchaseListener
      */
     @Keep
-    public static void consumePurchase(Purchase purchase, TGGoogleConsumePurchaseListener purchaseListener){
+    public static void GoogleConsumePurchase(Purchase purchase, TGGoogleConsumePurchaseListener purchaseListener){
         BigFunSDK.consumePurchase(purchase, new GoogleConsumePurchaseListener() {
             @Override
             public void onConsumePurchase(BillingResult billingResult, String purchaseToken) {
@@ -284,15 +297,15 @@ public class TopGameSDK {
         });
     }
 
-    /**
-     * 展示横屏广告
-     * @param frameLayout
-     * @param adBFSize
-     */
-    @Keep
-    public static void ShowBanner(FrameLayout frameLayout, AdTGSize adBFSize){
-        BigFunSDK.ShowBanner(frameLayout, SizeUtils.TGSize(adBFSize));
-    }
+//    /**
+//     * 展示横屏广告
+//     * @param frameLayout
+//     * @param adBFSize
+//     */
+//    @Keep
+//    public static void ShowBanner(FrameLayout frameLayout, AdTGSize adBFSize){
+//        BigFunSDK.ShowBanner(frameLayout, SizeUtils.TGSize(adBFSize));
+//    }
 
     /**
      * 展示插页广告
@@ -315,12 +328,16 @@ public class TopGameSDK {
             }
 
             @Override
-            public void onRewardedVideoAdRewarded(FBISPlacement placement) {
+            public void onRewardedVideoAdRewarded(ISPlacement placement) {
                 listener.onRewardedVideoAdRewarded(new TGPlacement(placement));
             }
         });
     }
 
+    @Keep
+    public static void ShowRewardedVideo(){
+        BigFunSDK.ShowRewardedVideo();
+    }
     /**
      * 是否是调试模式
      * @param debug
@@ -338,63 +355,63 @@ public class TopGameSDK {
     public static void TGLogin(Activity activity){
         BigFunSDK.BigFunLogin(activity);
     }
-
+    @Keep
     public static final int SIGN_LOGIN = BigFunSDK.SIGN_LOGIN;
 
     @Keep
     public static SignInClient TGIdentity(Activity activity) {
         return Identity.getSignInClient(activity);
     }
-//    /**
-//     * FB的登录
-//     * @param context
-//     * @param listener
-//     */
-//    @Keep
-//    public static void TGLogin(Context context, TGLoginListener listener){
-//        BigFunSDK.BigFunLogin(context, new LoginListener() {
-//            @Override
-//            public void onCancel() {
-//                listener.onCancel();
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                listener.onError(error);
-//            }
-//
-//            @Override
-//            public void onComplete(BFLoginModel loginResult) {
-//                listener.onComplete(new TGLoginModel(loginResult));
-//            }
-//        });
-//    }
+    /**
+     * FB的登录
+     * @param context
+     * @param listener
+     */
+    @Keep
+    public static void TGLogin(Context context, TGLoginListener listener){
+        BigFunSDK.BigFunLogin(context, new LoginListener() {
+            @Override
+            public void onCancel() {
+                listener.onCancel();
+            }
 
-//    /**
-//     * FB的分享
-//     * @param context
-//     * @param linkContent
-//     * @param listener
-//     */
-//    @Keep
-//    public static void TGShare(Context context, ShareContent linkContent, TGShareListener listener){
-//        BigFunSDK.BigFunShare(context, linkContent, new ShareListener() {
-//            @Override
-//            public void onCancel() {
-//                listener.onCancel();
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                listener.onError(error);
-//            }
-//
-//            @Override
-//            public void onComplete(BFShareModel result) {
-//                listener.onComplete(new TGShareModel(result));
-//            }
-//        });
-//    }
+            @Override
+            public void onError(String error) {
+                listener.onError(error);
+            }
+
+            @Override
+            public void onComplete(BFLoginModel loginResult) {
+                listener.onComplete(new TGLoginModel(loginResult));
+            }
+        });
+    }
+
+    /**
+     * FB的分享
+     * @param context
+     * @param linkContent
+     * @param listener
+     */
+    @Keep
+    public static void TGShare(Context context, ShareContent linkContent, TGShareListener listener){
+        BigFunSDK.BigFunShare(context, linkContent, new ShareListener() {
+            @Override
+            public void onCancel() {
+                listener.onCancel();
+            }
+
+            @Override
+            public void onError(String error) {
+                listener.onError(error);
+            }
+
+            @Override
+            public void onComplete(BFShareModel result) {
+                listener.onComplete(new TGShareModel(result));
+            }
+        });
+    }
 
     /**
      * 文本分享
@@ -416,13 +433,13 @@ public class TopGameSDK {
         BigFunSDK.BigFunShare(context,shareFileUri);
     }
 
-//    /**
-//     * 退出登录
-//     */
-//    @Keep
-//    public static void Logout(){
-//        BigFunSDK.BigFunLogout();
-//    }
+    /**
+     * 退出登录
+     */
+    @Keep
+    public static void Logout(){
+        BigFunSDK.BigFunLogout();
+    }
 
     /**
      * FB返回 回调
@@ -430,8 +447,8 @@ public class TopGameSDK {
      * @param resultCode
      * @param data
      */
-//    @Keep
-//    public static void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        BigFunSDK.onActivityResult(requestCode, resultCode, data);
-//    }
+    @Keep
+    public static void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        BigFunSDK.onActivityResult(requestCode, resultCode, data);
+    }
 }

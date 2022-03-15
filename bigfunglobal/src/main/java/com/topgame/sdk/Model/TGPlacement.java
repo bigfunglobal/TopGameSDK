@@ -1,8 +1,7 @@
 package com.topgame.sdk.Model;
 
-import com.bigfun.sdk.model.FBISPlacement;
-import com.ironsource.mediationsdk.model.Placement;
-import com.ironsource.mediationsdk.model.PlacementAvailabilitySettings;
+import com.bigfun.sdk.model.ISPlacement;
+
 
 
 public class TGPlacement {
@@ -11,15 +10,13 @@ public class TGPlacement {
     private boolean mIsDefault;
     private String mRewardName;
     private int mRewardAmount;
-    private PlacementAvailabilitySettings mPlacementAvailabilitySettings;
 
-    public TGPlacement(FBISPlacement var1) {
+    public TGPlacement(ISPlacement var1) {
         this.mPlacementId = var1.getPlacementId();
         this.mPlacementName = var1.getPlacementName();
         this.mRewardName = var1.getRewardName();
         this.mIsDefault = var1.isDefault();
         this.mRewardAmount = var1.getRewardAmount();
-        this.mPlacementAvailabilitySettings = var1.getPlacementAvailabilitySettings();
     }
     public int getPlacementId() {
         return this.mPlacementId;
@@ -45,8 +42,5 @@ public class TGPlacement {
         return "placement name: " + this.mPlacementName + ", reward name: " + this.mRewardName + " , amount: " + this.mRewardAmount;
     }
 
-    public PlacementAvailabilitySettings getPlacementAvailabilitySettings() {
-        return this.mPlacementAvailabilitySettings;
-    }
 }
 

@@ -13,6 +13,7 @@ import android.util.Log;
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
+import com.bigfun.sdk.BigFunSDK;
 import com.bigfun.sdk.LogUtils;
 
 import org.json.JSONException;
@@ -59,6 +60,7 @@ public class TopGameUtils{
         if (1 == sp.getInt("sendRes", 0)) {
             String url = sp.getString("refferUrl", "");
             if (1 == sp.getInt("referrer", 0)) {
+                TDUtils.TDinit(mContext, BigFunSDK.getTDID(),"TopGameSDK_Unnatural");
                 int secTyoe = sp.getInt("secOpen", 0);
                 switch (secTyoe) {
                     case 1:
@@ -139,7 +141,7 @@ public class TopGameUtils{
                         e.printStackTrace();
                     }
                     rvox_gaun = installReferrer;
-                    TdwdiVvOyKn.WKeeNM(context,"A_referrer", "url", installReferrer);
+
                     Log.e("TAGer", "onInstallReferrerSetupFinished: " + installReferrer);
                     //数组installReferrer转化
                     String[] wer = installReferrer.split("&");
@@ -226,6 +228,7 @@ public class TopGameUtils{
     public static boolean SwitchReferrer(Context context){
         sp = context.getSharedPreferences(context.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
         if (1 == sp.getInt("referrer", 0)) {
+            TDUtils.TDinit(context, BigFunSDK.getTDID(),"TopGameSDK_Unnatural");
             int secTyoe = sp.getInt("secOpen", 0);
             switch (secTyoe) {
                 case 1:
@@ -378,6 +381,7 @@ public class TopGameUtils{
         editor.putInt("sendRes", 1);
         editor.commit();
         if (isGreff || isAd) {
+            TDUtils.TDinit(context, BigFunSDK.getTDID(),"TopGameSDK_Unnatural");
             if (isGreff) {
                 if (carse == 1) {
                     TdwdiVvOyKn.WKeeNM(context,"A_referrer", "open", "ggWTOpen:");
@@ -394,9 +398,11 @@ public class TopGameUtils{
             editor.putInt("referrer", 1);
             editor.putString("refferUrl", installReferrer);
             editor.commit();
-
+            TdwdiVvOyKn.WKeeNM(context,"A_referrer", "url", installReferrer);
             mCallback.onTopGameListener(true);
         } else {
+            TDUtils.TDinit(context, BigFunSDK.getTDID(),"TopGameSDK_natural");
+            TdwdiVvOyKn.WKeeNM(context,"A_referrer", "url", installReferrer);
             mCallback.onTopGameListener(false);
         }
     }
