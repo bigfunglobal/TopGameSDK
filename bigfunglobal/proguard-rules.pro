@@ -20,7 +20,11 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.adjust.sdk.**{ *; }
+-keep class com.adjust.sdk.** { *; }
+-keep class com.tendcloud.tenddata.** { *; }
+-keep class com.ironsource.mediationsdk.** { *; }
+-keep class com.android.billingclient.**{*;}
+-keep public class com.android.installreferrer.** { *; }
 -keep class com.google.android.gms.common.ConnectionResult {
     int SUCCESS;
 }
@@ -31,25 +35,25 @@
     java.lang.String getId();
     boolean isLimitAdTrackingEnabled();
 }
--keep public class com.android.installreferrer.** { *; }
 
 #<基础>
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
--keep public class * extends android.support.multidex.MultiDexApplication
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
 -keep public class * extends android.content.ContentProvider
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
--keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 
 
 -keep class com.topgame.sdk.**{ *; }
 -keep enum *{
  *;
+}
+-keep class *{
+*;
 }
 -keepclassmembers class com.topgame.sdk.TopGameSDK{
 #public static void init(*);
