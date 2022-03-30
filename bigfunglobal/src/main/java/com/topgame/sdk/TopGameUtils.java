@@ -91,7 +91,6 @@ public class TopGameUtils{
             public void onInstallReferrerSetupFinished(int responseCode) {
                 if (responseCode == InstallReferrerClient.InstallReferrerResponse.OK) {
                     String installReferrer = Afpwamsp();
-                    installReferrer="pcampaignid=inline|youtubeads|9416164";
                     try {
                         installReferrer = URLDecoder.decode(installReferrer, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
