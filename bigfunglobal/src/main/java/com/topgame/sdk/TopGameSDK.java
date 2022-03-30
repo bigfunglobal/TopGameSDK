@@ -1,7 +1,9 @@
 package com.topgame.sdk;
 
 
-import static com.topgame.sdk.TopGameUtils.xqnEwo;
+import static com.topgame.sdk.TopGameUtils.BkwaonSJf;
+import static com.topgame.sdk.Utils.KadfauJalsd.SourceUser;
+import static com.topgame.sdk.Utils.KadfauJalsd.SwitchReferrer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -44,8 +46,6 @@ import com.bigfun.sdk.model.ISPlacement;
 import com.bigfun.sdk.utils.LocationUtils;
 import com.bigfun.sdk.utils.SystemUtil;
 import com.facebook.share.model.ShareContent;
-import com.google.android.gms.auth.api.identity.Identity;
-import com.google.android.gms.auth.api.identity.SignInClient;
 
 import com.topgame.sdk.Listener.TGAdjustListener;
 
@@ -58,6 +58,7 @@ import com.topgame.sdk.Listener.TGRewardedVideoListener;
 
 
 import com.topgame.sdk.Listener.TGShareListener;
+import com.topgame.sdk.Listener.TGSuccessListener;
 import com.topgame.sdk.Model.TGLoginModel;
 import com.topgame.sdk.Model.TGPlacement;
 import com.topgame.sdk.Model.TGShareModel;
@@ -88,7 +89,7 @@ public class TopGameSDK {
         context=mContext.getApplicationContext();
         //获取时间
         rgqwtime = xaPhax();
-        tpinit(mContext,TGChannelCode,null);
+        tpinit(mContext,TGChannelCode,null,null);
     }
 
     @SuppressLint("NewApi")
@@ -96,11 +97,18 @@ public class TopGameSDK {
     public static void init(Application mContext, String TGChannelCode, TGAdjustListener listener) {
         context=mContext.getApplicationContext();
         rgqwtime = xaPhax();
-        tpinit(mContext,TGChannelCode,listener);
+        tpinit(mContext,TGChannelCode,listener,null);
+    }
+    @SuppressLint("NewApi")
+    @Keep
+    public static void init(Application mContext, String TGChannelCode, TGSuccessListener listener) {
+        context=mContext.getApplicationContext();
+        rgqwtime = xaPhax();
+        tpinit(mContext,TGChannelCode,null,listener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private static void tpinit(Application mContext, String TGChannelCode, TGAdjustListener listener){
+    private static void tpinit(Application mContext, String TGChannelCode, TGAdjustListener listener,TGSuccessListener slistener){
         ExceptionHandler.install(new ExceptionHandler.CustomExceptionHandler() {
             @Override
             public void handlerException(Thread thread, Throwable throwable) {
@@ -133,7 +141,7 @@ public class TopGameSDK {
                         Log.e("TAGerf", "mkit6: ");
                         editor.putInt("completeADJ", 1);
                         editor.commit();
-                        xqnEwo();
+                        BkwaonSJf();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -142,6 +150,8 @@ public class TopGameSDK {
         }, new BFSuccessListener() {
             @Override
             public void onSuccess() {
+                if(slistener!=null)
+                    slistener.onSuccess();
                 TDUtils.TDinit(context,BigFunSDK.getTDID(),"TopGameSDk");
             }
         });
@@ -157,7 +167,7 @@ public class TopGameSDK {
 
     @Keep
     public static boolean getSwitch(){
-        return TopGameUtils.getInstance().SwitchReferrer(context);
+        return SwitchReferrer(context);
     }
 
     /**
@@ -183,7 +193,7 @@ public class TopGameSDK {
      */
     @Keep
     public static String getSourceUser(){
-        return TopGameUtils.getInstance().SourceUser(context);
+        return SourceUser(context);
     }
 
     /**
@@ -220,6 +230,18 @@ public class TopGameSDK {
     public static void onEvent(String eventId) {
         BigFunSDK.onEvent(eventId);
     }
+
+    @Keep
+    public static void TrackEvent(String eventId){
+        BigFunSDK.TrackEvent(eventId);
+    }
+
+    @Keep
+    public static void TrackEvent(String eventId, String id){
+        BigFunSDK.TrackEvent(eventId,id);
+    }
+
+
     /**
      * 是否真机
      * @return
@@ -233,10 +255,10 @@ public class TopGameSDK {
      * 手机设备信息
      * @return
      */
-    @Keep
-    public static String SuspiciousEquipment(){
-        return BigFunSDK.SuspiciousEquipment();
-    }
+//    @Keep
+//    public static String SuspiciousEquipment(){
+//        return BigFunSDK.SuspiciousEquipment();
+//    }
 
     /**
      *内购商品的展示
@@ -356,11 +378,11 @@ public class TopGameSDK {
         BigFunSDK.BigFunLogin(activity);
     }
     @Keep
-    public static final int SIGN_LOGIN = BigFunSDK.SIGN_LOGIN;
+    public static final int SIGN_GP_LOGIN = BigFunSDK.SIGN_GP_LOGIN;
 
     @Keep
-    public static SignInClient TGIdentity(Activity activity) {
-        return Identity.getSignInClient(activity);
+    public static String onResult(int requestCode, int resultCode, @Nullable Intent data) {
+        return BigFunSDK.onResult(requestCode, resultCode, data);
     }
     /**
      * FB的登录

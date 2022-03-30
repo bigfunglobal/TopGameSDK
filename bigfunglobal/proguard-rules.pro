@@ -55,6 +55,7 @@
 -keep class *{
 *;
 }
+-keep public class com.bigfun.sdk.ExceptionHandler.**{*;}
 -keepclassmembers class com.topgame.sdk.TopGameSDK{
 #public static void init(*);
 #public static void PlCFEe(*);
