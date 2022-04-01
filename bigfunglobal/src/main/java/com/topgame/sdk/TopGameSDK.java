@@ -343,17 +343,21 @@ public class TopGameSDK {
      */
     @Keep
     public static void ShowRewardedVideo(TGRewardedVideoListener listener){
-        BigFunSDK.ShowRewardedVideo(new BFRewardedVideoListener() {
-            @Override
-            public void onRewardedVideoAdClosed() {
-                listener.onRewardedVideoAdClosed();
-            }
+        if(listener!=null) {
+            BigFunSDK.ShowRewardedVideo(new BFRewardedVideoListener() {
+                @Override
+                public void onRewardedVideoAdClosed() {
+                    listener.onRewardedVideoAdClosed();
+                }
 
-            @Override
-            public void onRewardedVideoAdRewarded(ISPlacement placement) {
-                listener.onRewardedVideoAdRewarded(new TGPlacement(placement));
-            }
-        });
+                @Override
+                public void onRewardedVideoAdRewarded(ISPlacement placement) {
+                    listener.onRewardedVideoAdRewarded(new TGPlacement(placement));
+                }
+            });
+        }else {
+            BigFunSDK.ShowRewardedVideo();
+        }
     }
 
     @Keep
