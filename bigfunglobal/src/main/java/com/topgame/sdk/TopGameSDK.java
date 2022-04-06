@@ -32,6 +32,7 @@ import com.bigfun.sdk.ExceptionHandler;
 import com.bigfun.sdk.LogUtils;
 import com.bigfun.sdk.NetWork.BFRewardedVideoListener;
 
+import com.bigfun.sdk.NetWork.BFTMRewardedVideoListener;
 import com.bigfun.sdk.listener.BFAdjustListener;
 import com.bigfun.sdk.listener.BFSuccessListener;
 import com.bigfun.sdk.listener.GoogleCommodityListener;
@@ -43,6 +44,7 @@ import com.bigfun.sdk.listener.ShareListener;
 import com.bigfun.sdk.model.BFLoginModel;
 import com.bigfun.sdk.model.BFShareModel;
 import com.bigfun.sdk.model.ISPlacement;
+import com.bigfun.sdk.model.TMISPlacement;
 import com.bigfun.sdk.utils.LocationUtils;
 import com.bigfun.sdk.utils.SystemUtil;
 import com.facebook.share.model.ShareContent;
@@ -59,9 +61,11 @@ import com.topgame.sdk.Listener.TGRewardedVideoListener;
 
 import com.topgame.sdk.Listener.TGShareListener;
 import com.topgame.sdk.Listener.TGSuccessListener;
+import com.topgame.sdk.Listener.TGTMRewardedVideoListener;
 import com.topgame.sdk.Model.TGLoginModel;
 import com.topgame.sdk.Model.TGPlacement;
 import com.topgame.sdk.Model.TGShareModel;
+import com.topgame.sdk.Model.TGTMPlacement;
 import com.topgame.sdk.Utils.SizeUtils;
 import com.topgame.sdk.type.AdTGSize;
 
@@ -342,22 +346,53 @@ public class TopGameSDK {
      * @param listener
      */
     @Keep
-    public static void ShowRewardedVideo(TGRewardedVideoListener listener){
-        if(listener!=null) {
-            BigFunSDK.ShowRewardedVideo(new BFRewardedVideoListener() {
+    public static void ShowRewardedVideo(TGTMRewardedVideoListener listener){
+        if(listener==null)
+            BigFunSDK.ShowRewardedVideo();
+
+            BigFunSDK.ShowRewardedVideo(new BFTMRewardedVideoListener() {
+                @Override
+                public void onRewardedVideoAdOpened() {
+                    listener.onRewardedVideoAdOpened();
+                }
+
                 @Override
                 public void onRewardedVideoAdClosed() {
                     listener.onRewardedVideoAdClosed();
                 }
 
                 @Override
-                public void onRewardedVideoAdRewarded(ISPlacement placement) {
-                    listener.onRewardedVideoAdRewarded(new TGPlacement(placement));
+                public void onRewardedVideoAvailabilityChanged(boolean b) {
+                    listener.onRewardedVideoAvailabilityChanged(b);
                 }
+
+                @Override
+                public void onRewardedVideoAdStarted() {
+                    listener.onRewardedVideoAdStarted();
+                }
+
+                @Override
+                public void onRewardedVideoAdEnded() {
+                    listener.onRewardedVideoAdEnded();
+                }
+
+                @Override
+                public void onRewardedVideoAdRewarded(TMISPlacement placement) {
+                    listener.onRewardedVideoAdRewarded(new TGTMPlacement(placement));
+                }
+
+                @Override
+                public void onRewardedVideoAdShowFailed(String ironSourceError) {
+                    listener.onRewardedVideoAdShowFailed(ironSourceError);
+                }
+
+                @Override
+                public void onRewardedVideoAdClicked(TMISPlacement placement) {
+                    listener.onRewardedVideoAdClicked(new TGTMPlacement(placement));
+                }
+
             });
-        }else {
-            BigFunSDK.ShowRewardedVideo();
-        }
+
     }
 
     @Keep
@@ -381,6 +416,7 @@ public class TopGameSDK {
     public static void TGLogin(Activity activity){
         BigFunSDK.BigFunLogin(activity);
     }
+
     @Keep
     public static final int SIGN_GP_LOGIN = BigFunSDK.SIGN_GP_LOGIN;
 
