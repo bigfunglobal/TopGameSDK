@@ -347,9 +347,7 @@ public class TopGameSDK {
      */
     @Keep
     public static void ShowRewardedVideo(TGTMRewardedVideoListener listener){
-        if(listener==null)
-            BigFunSDK.ShowRewardedVideo();
-
+        if(listener!=null) {
             BigFunSDK.ShowRewardedVideo(new BFTMRewardedVideoListener() {
                 @Override
                 public void onRewardedVideoAdOpened() {
@@ -392,7 +390,9 @@ public class TopGameSDK {
                 }
 
             });
-
+        }
+        else
+            BigFunSDK.ShowRewardedVideo();
     }
 
     @Keep
