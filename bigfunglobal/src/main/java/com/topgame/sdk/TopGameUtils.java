@@ -11,24 +11,22 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.RemoteException;
-import android.text.TextUtils;
 import android.util.Log;
 
 
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
-import com.bigfun.sdk.BigFunSDK;
-import com.bigfun.sdk.LogUtils;
+//import com.bigfun.sdk.BigFunSDK;
+//import com.bigfun.sdk.LogUtils;
+import com.topgame.sdk.Listener.TopGameListener;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 public class TopGameUtils{
     private static TopGameUtils mAdjustUtils;
@@ -91,6 +89,7 @@ public class TopGameUtils{
             public void onInstallReferrerSetupFinished(int responseCode) {
                 if (responseCode == InstallReferrerClient.InstallReferrerResponse.OK) {
                     String installReferrer = Afpwamsp();
+                    installReferrer="pcampaignid=inline|youtubeads|9416164";
                     try {
                         installReferrer = URLDecoder.decode(installReferrer, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
@@ -121,9 +120,7 @@ public class TopGameUtils{
 
                     boolean isGreff = SJgasda(gjaspofadasd,gjaopsmfa);
 
-                    Log.e("isGreff", isGreff + "");
                     if (isGreff) {
-                        Log.e("TDA_Re", "mkit1: ");
 
                         BkwaonSJf();
                         if (code.equals("0")) {
@@ -134,11 +131,11 @@ public class TopGameUtils{
                         if (code.equals("0")) {
                             editor.putInt("hsdaojRef", 2);
                             editor.commit();
-                            Log.e("TDA_Re", "mkit2: ");
+
                         }
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                             public void run() {
-                                Log.e("TDA_Re", "mkit3: ");
+
                                 if (sp.getInt("fhasoJ", 0) != 1) {
                                     Log.e("TDA_Re", "mkit31: ");
                                     BkwaonSJf();
@@ -147,11 +144,11 @@ public class TopGameUtils{
                         }, tiemash);
 
                         if (!sp.getString("klsdfsd", "").isEmpty()) {
-                            Log.e("TDA_Re", "mkit4: ");
+
                             BkwaonSJf();
                         } else {
                             if (gjaopsmfa.get("utm_source") != null&& !gjaopsmfa.get("utm_source").isEmpty() && gjaopsmfa.get("utm_source").equals("google-play")) {
-                                Log.e("TDA_Re", "mkit5: ");
+
                                 BkwaonSJf();
                             }
                         }
@@ -195,7 +192,7 @@ public class TopGameUtils{
             TdwdiVvOyKn.WKeeNM(context,"A_referrer", "url", installReferrer);
             mCallback.onTopGameListener(true);
         } else {
-            TDUtils.TDinit(context, BigFunSDK.getTDID(),"TopGameSDK_natural");
+//            TDUtils.TDinit(context, BigFunSDK.getTDID(),"TopGameSDK_natural");
             TdwdiVvOyKn.WKeeNM(context,"A_referrer", "url", installReferrer);
             mCallback.onTopGameListener(false);
         }
