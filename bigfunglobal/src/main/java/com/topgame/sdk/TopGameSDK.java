@@ -9,17 +9,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 
 import com.adjust.sdk.Adjust;
@@ -51,7 +47,6 @@ import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.OnAttributionChangedListener;
 import com.tendcloud.tenddata.TDGAProfile;
 import com.tendcloud.tenddata.TalkingDataGA;
-import com.topgame.sdk.Listener.TGAdjustListener;
 
 //import com.topgame.sdk.Listener.TGGoogleCommodityListener;
 //import com.topgame.sdk.Listener.TGGoogleConsumePurchaseListener;
@@ -62,7 +57,6 @@ import com.topgame.sdk.Listener.TGAdjustListener;
 //
 //
 //import com.topgame.sdk.Listener.TGShareListener;
-import com.topgame.sdk.Listener.TGSuccessListener;
 import com.topgame.sdk.Listener.TopGameListener;
 //import com.topgame.sdk.Model.TGLoginModel;
 //import com.topgame.sdk.Model.TGPlacement;
@@ -73,8 +67,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class TopGameSDK {
     private static Context context;
@@ -112,8 +104,8 @@ public class TopGameSDK {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("adAttri", fbgv.toString());
                     editor.commit();
-                    TdwdiVvOyKn.WKeeNM(context, "A_Ev_Adgy", "gyInfo", fbgv.toString());
-                    TdwdiVvOyKn.WKeeNM(context, "A_Ev_Adgy", "attrInfo", attribution.toString());
+                    TwlkHifdwa.hfowaEfa(context, "A_Ev_Adgy", "gyInfo", fbgv.toString());
+                    TwlkHifdwa.hfowaEfa(context, "A_Ev_Adgy", "attrInfo", attribution.toString());
 
                     if (sp.getInt("completeRef", 0) == 2) {
                         //已经获取gogglereffer了
@@ -234,8 +226,8 @@ public class TopGameSDK {
 //                    SharedPreferences.Editor editor = sp.edit();
 //                    editor.putString("adAttri", fbgv.toString());
 //                    editor.commit();
-//                    TdwdiVvOyKn.WKeeNM(context, "A_Ev_Adgy", "gyInfo", fbgv.toString());
-//                    TdwdiVvOyKn.WKeeNM(context, "A_Ev_Adgy", "attrInfo", attribution.toString());
+//                    TdwdiVvOyKn.hfowaEfa(context, "A_Ev_Adgy", "gyInfo", fbgv.toString());
+//                    TdwdiVvOyKn.hfowaEfa(context, "A_Ev_Adgy", "attrInfo", attribution.toString());
 //                    LogUtils.log("staApplication：" + "atibunt: " + fbgv.toString());
 //                    if (sp.getInt("completeRef", 0) == 2) {
 //                        //已经获取gogglereffer了

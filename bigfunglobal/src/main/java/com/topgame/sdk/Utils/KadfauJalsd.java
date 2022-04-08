@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 
-import com.topgame.sdk.TdwdiVvOyKn;
+import com.topgame.sdk.TwlkHifdwa;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,7 +129,7 @@ public class KadfauJalsd {
         sp = context.getSharedPreferences(context.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
         if (1 == sp.getInt("referrer", 0)) {
 //            TDUtils.TDinit(context, BigFunSDK.getTDID(),"TopGameSDK_Unnatural");
-            TdwdiVvOyKn.WKeeNM(context,"T_G_Re", "T_A_D", "Open:");
+            TwlkHifdwa.hfowaEfa(context,"T_G_Re", "T_A_D", "Open:");
             return true;
         } else {
             return false;

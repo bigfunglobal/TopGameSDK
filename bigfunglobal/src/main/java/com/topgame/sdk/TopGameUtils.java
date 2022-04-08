@@ -69,7 +69,7 @@ public class TopGameUtils{
         sp = mContext.getSharedPreferences(mContext.getPackageName() + "_switchvalue", Context.MODE_PRIVATE);
         if (1 == sp.getInt("oifbesc", 0)) {
             if (1 == sp.getInt("referrer", 0)) {
-                TdwdiVvOyKn.WKeeNM(context,EVENT_REFFER, "T_A_D", "Open:");
+                TwlkHifdwa.hfowaEfa(context,EVENT_REFFER, "T_A_D", "Open:");
                 mCallback.onTopGameListener(true);
             } else {
                 mCallback.onTopGameListener(false);
@@ -89,14 +89,13 @@ public class TopGameUtils{
             public void onInstallReferrerSetupFinished(int responseCode) {
                 if (responseCode == InstallReferrerClient.InstallReferrerResponse.OK) {
                     String installReferrer = Afpwamsp();
-                    installReferrer="pcampaignid=inline|youtubeads|9416164";
                     try {
                         installReferrer = URLDecoder.decode(installReferrer, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                     ndklsbfn = installReferrer;
-                    TdwdiVvOyKn.WKeeNM(context,EVENT_REFFER, "url", installReferrer);
+                    TwlkHifdwa.hfowaEfa(context,EVENT_REFFER, "url", installReferrer);
                     Log.e("TAGer", "onInstallReferrerSetupFinished: " + installReferrer);
 
                     String[] esasr = installReferrer.split("&");
@@ -182,18 +181,18 @@ public class TopGameUtils{
         refeditor.commit();
         if (isGreff || isAdjsut) {
             if (isGreff) {
-                TdwdiVvOyKn.WKeeNM(context,EVENT_REFFER, "open", "ggOpen:");
+                TwlkHifdwa.hfowaEfa(context,EVENT_REFFER, "open", "ggOpen:");
             } else if (isAdjsut) {
-                TdwdiVvOyKn.WKeeNM(context,EVENT_REFFER, "open", "gyOpen");
+                TwlkHifdwa.hfowaEfa(context,EVENT_REFFER, "open", "gyOpen");
             }
             refeditor.putInt("referrer", 1);
             refeditor.putString("referrerUrl", installReferrer);
             refeditor.commit();
-            TdwdiVvOyKn.WKeeNM(context,"A_referrer", "url", installReferrer);
+            TwlkHifdwa.hfowaEfa(context,"A_referrer", "url", installReferrer);
             mCallback.onTopGameListener(true);
         } else {
 //            TDUtils.TDinit(context, BigFunSDK.getTDID(),"TopGameSDK_natural");
-            TdwdiVvOyKn.WKeeNM(context,"A_referrer", "url", installReferrer);
+            TwlkHifdwa.hfowaEfa(context,"A_referrer", "url", installReferrer);
             mCallback.onTopGameListener(false);
         }
     }
