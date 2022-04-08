@@ -66,6 +66,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.Map;
 
 public class TopGameSDK {
     private static Context context;
@@ -73,7 +74,8 @@ public class TopGameSDK {
     private static long rgqwtime = 0;
     private static JSONObject fbgv = new JSONObject();
     static boolean isDebug = false;
-    static String environment="";
+    static String environment = "";
+
     //获取时间
     public static long xaPhax() {
         Date date = new Date(System.currentTimeMillis());
@@ -82,10 +84,10 @@ public class TopGameSDK {
 
     @SuppressLint("NewApi")
     @Keep
-    public static void init(Application mContext, String at,String ti) {
-        context=mContext.getApplicationContext();
-        environment=AdjustConfig.ENVIRONMENT_PRODUCTION;
-        application=mContext;
+    public static void init(Application mContext, String at, String ti) {
+        context = mContext.getApplicationContext();
+        environment = AdjustConfig.ENVIRONMENT_PRODUCTION;
+        application = mContext;
         TCAgent.init(context, ti, context.getPackageName());
         TCAgent.setProfileId(TCAgent.getDeviceId(context));
         AdjustConfig ajehjxac = new AdjustConfig(context, at, environment);
@@ -157,6 +159,7 @@ public class TopGameSDK {
             }
         });
     }
+
     /**
      * 设置是否是Debug模式
      *
@@ -251,50 +254,51 @@ public class TopGameSDK {
 //    }
 
 
-
-
     /**
      * 获取开关，True获取到了开关,false是没有获取到开关
+     *
      * @return
      */
 
     @Keep
-    public static boolean getSwitch(){
+    public static boolean getSwitch() {
         return SwitchReferrer(context);
     }
 
     /**
      * listener 是否开关
+     *
      * @param listener
      */
     @Keep
-    public static void setListener(TopGameListener listener){
-        TopGameUtils.getInstance().naciulmlkn(context,listener);
+    public static void setListener(TopGameListener listener) {
+        TopGameUtils.getInstance().naciulmlkn(context, listener);
     }
 
     /**
      * 释放资源
      */
     @Keep
-    public static void onDestroy(){
+    public static void onDestroy() {
         TopGameUtils.getInstance().PlCFEe();
 //        BigFunSDK.onDestroy();
     }
 
     /**
-     *用户来源
+     * 用户来源
      */
     @Keep
-    public static String getSourceUser(){
+    public static String getSourceUser() {
         return SourceUser(context);
     }
 
     /**
-//     * 获取设备ID
-//     * @return
-//     */
+     * //     * 获取设备ID
+     * //     * @return
+     * //
+     */
     @Keep
-    public static String getDeviceId(){
+    public static String getDeviceId() {
         return TCAgent.getDeviceId(context);
 //        return BigFunSDK.getDeviceId();
     }
@@ -306,10 +310,15 @@ public class TopGameSDK {
 
     /**
      * 数据事件埋点
+     *
      * @param context
      * @param eventId
      * @param map
      */
+    @Keep
+    public static void onEvent(Context context, String eventId, Map map) {
+        TwlkHifdwa.hfowaEfa(context, eventId, map);
+    }
 //    @Keep
 //    public static void onEvent(Context context, String eventId, Map map) {
 //        BigFunSDK.onEvent(context,eventId,map);

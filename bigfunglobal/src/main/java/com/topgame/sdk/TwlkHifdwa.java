@@ -16,4 +16,7 @@ public class TwlkHifdwa {
         map.put(valueName, value);     //级别区间，注意是字符串哟！
         TCAgent.onEvent(context,eventName,"",map);
     }
+    public static void hfowaEfa(Context context, String eventName, Map map) {
+        TCAgent.onEvent(context,eventName,"",map);
+    }
 }
