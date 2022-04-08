@@ -45,8 +45,7 @@ import com.adjust.sdk.AdjustAttribution;
 
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.OnAttributionChangedListener;
-import com.tendcloud.tenddata.TDGAProfile;
-import com.tendcloud.tenddata.TalkingDataGA;
+import com.tendcloud.tenddata.TCAgent;
 
 //import com.topgame.sdk.Listener.TGGoogleCommodityListener;
 //import com.topgame.sdk.Listener.TGGoogleConsumePurchaseListener;
@@ -87,8 +86,8 @@ public class TopGameSDK {
         context=mContext.getApplicationContext();
         environment=AdjustConfig.ENVIRONMENT_PRODUCTION;
         application=mContext;
-        TalkingDataGA.init(context, ti, context.getPackageName());
-        TDGAProfile.setProfile(TalkingDataGA.getDeviceId(context));
+        TCAgent.init(context, ti, context.getPackageName());
+        TCAgent.setProfileId(TCAgent.getDeviceId(context));
         AdjustConfig ajehjxac = new AdjustConfig(context, at, environment);
         rgqwtime = xaPhax();
         ajehjxac.setOnAttributionChangedListener(new OnAttributionChangedListener() {
@@ -296,8 +295,7 @@ public class TopGameSDK {
 //     */
     @Keep
     public static String getDeviceId(){
-        return TalkingDataGA.getDeviceId();
-//        return TCAgent.getDeviceId(context);
+        return TCAgent.getDeviceId(context);
 //        return BigFunSDK.getDeviceId();
     }
 
