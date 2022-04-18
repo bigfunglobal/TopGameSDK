@@ -35,6 +35,64 @@
     java.lang.String getId();
     boolean isLimitAdTrackingEnabled();
 }
+-dontwarn com.tendcloud.tenddata.**
+-keep class com.tendcloud.** {*;}
+-keep public class com.tendcloud.** {  public protected *;}
+
+-keep class com.adjust.sdk.**{ *; }
+-keep class com.google.android.gms.common.ConnectionResult {
+    int SUCCESS;
+}
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient {
+    com.google.android.gms.ads.identifier.AdvertisingIdClient$Info getAdvertisingIdInfo(android.content.Context);
+}
+-keep class com.google.android.gms.ads.identifier.AdvertisingIdClient$Info {
+    java.lang.String getId();
+    boolean isLimitAdTrackingEnabled();
+}
+-keep public class com.android.installreferrer.**{ *; }
+
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+-keep public class com.google.android.gms.ads.** {
+   public *;
+}
+-keep class com.ironsource.adapters.** { *;
+}
+-dontwarn com.ironsource.mediationsdk.**
+-dontwarn com.ironsource.adapters.**
+-keepattributes JavascriptInterface
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+-dontwarn com.facebook.ads.internal.**
+-keeppackagenames com.facebook.*
+-keep public class com.facebook.ads.** {*;}
+-keep public class com.facebook.ads.**
+{ public protected *; }
+# For communication with AdColony's WebView
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+# Keep ADCNative class members unobfuscated
+-keepclassmembers class com.adcolony.sdk.ADCNative** {
+    *;
+ }
+ -keepattributes Signature,InnerClasses,Exceptions,Annotation
+ -keep public class com.applovin.sdk.AppLovinSdk{ *; }
+ -keep public class com.applovin.sdk.AppLovin* { public protected *; }
+ -keep public class com.applovin.nativeAds.AppLovin* { public protected *; }
+ -keep public class com.applovin.adview.* { public protected *; }
+ -keep public class com.applovin.mediation.* { public protected *; }
+ -keep public class com.applovin.mediation.ads.* { public protected *; }
+ -keep public class com.applovin.impl.*.AppLovin { public protected *; }
+ -keep public class com.applovin.impl.**.*Impl { public protected *; }
+ -keepclassmembers class com.applovin.sdk.AppLovinSdkSettings { private java.util.Map localSettings; }
+ -keep class com.applovin.mediation.adapters.** { *; }
+ -keep class com.applovin.mediation.adapter.**{ *; }
+
 
 #<基础>
 -keep public class * extends android.app.Activity
